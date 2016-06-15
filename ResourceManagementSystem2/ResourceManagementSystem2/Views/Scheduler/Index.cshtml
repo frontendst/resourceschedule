@@ -1,0 +1,69 @@
+﻿@using ResourceManagementSystem2.Models
+@using Kendo.Mvc.UI
+@model Programmer[]
+
+@{
+    ViewBag.Title = "Resource Management System";
+}
+
+
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+@(Html.Kendo().Scheduler<ProjectViewModel>()
+    .Name("scheduler")
+    .Date(DateTime.Now)
+    .StartTime(DateTime.MinValue)
+    .Views(views =>
+    {
+        views.TimelineMonthView(timeline =>
+        {
+            timeline.StartTime(DateTime.MinValue);
+            timeline.EndTime(DateTime.MaxValue);
+            timeline.EventHeight(50);
+        });
+    })
+    .Group(group => group.Resources("Programmers").Orientation(SchedulerGroupOrientation.Vertical))
+    .Resources(resource =>
+    {
+        resource.Add(m => m.Programmers)//для окошка добавления
+            .Title("Programmers")
+            .Name("Programmers")
+            .Multiple(true)
+            .DataTextField("Name")
+            .DataValueField("ProgrammerID")
+            .BindTo(@Model);
+    })
+    .DataSource(d => d
+            .Model(m =>
+            {
+                m.Id(f => f.ProjectViewModelID);
+                m.Field(f => f.Title).DefaultValue("No title");
+                m.RecurrenceId(f => f.RecurrenceId);
+                m.Field(f => f.Title).DefaultValue("No title");
+            })
+            .Read("ReadProjects", "Scheduler")
+            .Create("CreateProject", "Scheduler")
+            .Destroy("DestroyProject", "Scheduler")
+            .Update("UpdateProject", "Scheduler")
+    )
+)
+
+@*@{Html.RenderAction("Index", "Projects");}*@
+
+<script>
+    //$(function () {
+    //    var showProjectsRef = $(".k-scheduler-toolbar");
+    //    showProjectsRef.append("<a id=\"projectsButton\" href=\"javascript:document.getElementById('showProjectsForm').submit()\" class=\"k-link\">Проекты</a>");
+    //    showProjectsRef.bind('click', function () {
+    //        $("#window").data("kendoWindow").center().open();
+    //    });
+    //    $(".k-scheduler-toolbar").append("<a id=\"logOffButton\" class=\"k-link\">Выйти</a>");
+    //})
+
+    //function onClose() {
+    //}
+
+</script>
