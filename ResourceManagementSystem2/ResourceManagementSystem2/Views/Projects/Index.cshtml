@@ -1,0 +1,87 @@
+﻿@using ResourceManagementSystem2.Models
+@model ProjectViewModel[]
+    @{Html.Kendo().Window()
+                        .Name("window")
+                        .Title("Projects Manager")
+                        .Content(
+                            Html.Kendo().Grid(Model)
+                                .Name("grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(p => p.Title).Title("Название").Width(200);
+                                    columns.Bound(p => p.Description).Title("Описание").Width(300);
+                                    columns.Bound(p => p.Start).Title("Начало").Width(200);
+                                    columns.Bound(p => p.End).Title("Окончание").Width(180);
+                                    columns.Bound(p => p.Color).Title("Цвет")
+                                    .ClientTemplate("<span id='background" + "' style='display: inline-block; width: 100%; height: 100%; background-color: #=Color#'>&nbsp;</span>")
+                                    .EditorTemplateName("ColorPicker");
+                                    columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+                                })
+                    .ToolBar(commands => commands.Create())
+                    .Editable(editable => editable.Mode(GridEditMode.InLine))
+                    .HtmlAttributes(new { style = "height: 550px;" })
+                    .Pageable(pageable => pageable
+                    .Input(true)
+                    .Numeric(false)
+                    )
+                    .Sortable()
+                    .Scrollable(scr => scr.Height(430))
+                    .Filterable()
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        // Configure CRUD. -->
+                        .Model(model => model.Id(p => p.ProjectViewModelID))
+                        .Read("ReadProjects", "Scheduler")
+                        .Create("CreateProject", "Scheduler")
+                        .Destroy("DestroyProject", "Scheduler")
+                        .Update("UpdateProject", "Scheduler")
+                        // <-- Configure CRUD.
+                        )
+                    .ToHtmlString()
+                    )
+                    .Draggable()
+                    .Resizable()
+                    .Width(1200)
+                    .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+                    .Events(ev => ev.Close("onClose"))
+                    .Visible(false)
+                    .Render();
+    }
+
+<script>
+    function editRow(){
+
+    }
+
+    function deleteRow(){
+
+    }
+
+    function onClose(){
+
+    }
+
+
+</script>
+
+<style>
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>

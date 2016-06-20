@@ -1,0 +1,7 @@
+﻿@model ResourceManagementSystem2.Models.ProjectViewModel
+
+@(Html.Kendo().DropDownListFor(m => m)
+        .DataValueField("ProjectViewModelID")
+        .DataTextField("Title")
+        .BindTo(Model)
+)
