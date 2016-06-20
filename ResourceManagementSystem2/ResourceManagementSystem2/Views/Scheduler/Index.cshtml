@@ -37,26 +37,17 @@
                 resource.Add(m => m.Programmers)//для окошка добавления
             .Title("Programmers")
             .Name("Programmers")
-            //.Multiple(true)
             .DataTextField("Name")
             .DataValueField("ProgrammerID")
             .BindTo(@Model);
+
                 resource.Add(m => m.Color)
                 .Title("Color")
                 .Name("Color")
-                .DataTextField("Text")
-                .DataValueField("Value")
+                .DataTextField("Color")
+                .DataValueField("Color")
                 .DataColorField("Color")
-
-            .BindTo(new[] {
-                new { Text = "1", Value = "#6eb3fa", Color = "#6eb3fa" },
-                new { Text = "2", Value = "#f58a8a", Color = "#f58a8a" },
-                new { Text = "2", Value = "red", Color = "red" },
-                new { Text = "4", Value = "green", Color = "green" },
-                new { Text = "5", Value = "yellow", Color = "yellow" },
-                new { Text = "6", Value = "purple", Color = "purple" },
-                new { Text = "7", Value = "brown", Color = "brown" },
-            });
+                .DataSource(ds => ds.Read("GetProjectColors", "Scheduler"));
             })
 
     .DataSource(d => d
@@ -81,19 +72,9 @@
         $(".k-scheduler-toolbar").append("<a id=\"projectsButton\" href=\"javascript:document.getElementById('showProjectsForm').submit()\" class=\"k-link\">Проекты</a>");
         $("#projectsButton").bind('click', function () {
             $("#window").data("kendoWindow").center().open();
-            //var grid = $("#grid").data("kendoGrid");
-            //console.log(grid);
-            //grid.dataSource.read();
         });
         $(".k-scheduler-toolbar").append("<a id=\"logOffButton\" href=\"javascript:document.getElementById('logoutForm').submit()\" class=\"k-link\">Выйти</a>");
     })
 </script>
-<script>
-    //function onChange(e) {
 
-    //    console.log("onChange Starts!");
-    //    this._container.find(".k-datepicker").data("kendoDatePicker").setOptions({
-    //        format: "yyyy"
-    //    });
-    //}
-</script>
+

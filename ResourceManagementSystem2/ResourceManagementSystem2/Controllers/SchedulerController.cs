@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace ResourceManagementSystem2.Controllers
 {
-    //[Authorize]
     public sealed class SchedulerController : Controller
     {
         private readonly ProgrammerService _programmerService = new ProgrammerService();
@@ -35,7 +34,6 @@ namespace ResourceManagementSystem2.Controllers
             return Json(new[] { project }.ToDataSourceResult(request, ModelState));
         }
 
-
         public ActionResult Index()
         {
             var programmers = _programmerService.GetProgrammers();
@@ -50,6 +48,11 @@ namespace ResourceManagementSystem2.Controllers
         public JsonResult ReadProjects([DataSourceRequest] DataSourceRequest request)
         {
             return Json(_projectsService.GetAll().ToDataSourceResult(request));
+        }
+
+        public JsonResult GetProjectColors()
+        {
+            return Json(_projectsService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult UpdateProject([DataSourceRequest] DataSourceRequest request, ProjectViewModel project)

@@ -19,7 +19,7 @@ namespace ResourceManagementSystem2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -53,7 +53,7 @@ namespace ResourceManagementSystem2.Controllers
         
         [Authorize]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             if (Request.IsAuthenticated)
