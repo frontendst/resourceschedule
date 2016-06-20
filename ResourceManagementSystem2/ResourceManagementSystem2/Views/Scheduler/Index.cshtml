@@ -12,30 +12,53 @@
     @Html.AntiForgeryToken()
 }
 
+@using (Ajax.BeginForm("Index", "Projects", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "projectsView", OnFailure = "PostFailure", OnSuccess = "PostSuccess", OnComplete = "PostOnComplete" }))
+{
+    @Html.AntiForgeryToken()
+}
+
 @(Html.Kendo().Scheduler<ProjectViewModel>()
-    .Name("scheduler")
-    .Date(DateTime.Now)
-    .StartTime(DateTime.MinValue)
-    .Views(views =>
-    {
-        views.TimelineMonthView(timeline =>
-        {
-            timeline.StartTime(DateTime.MinValue);
-            timeline.EndTime(DateTime.MaxValue);
-            timeline.EventHeight(50);
-        });
-    })
-    .Group(group => group.Resources("Programmers").Orientation(SchedulerGroupOrientation.Vertical))
-    .Resources(resource =>
-    {
-        resource.Add(m => m.Programmers)//для окошка добавления
+            .Name("scheduler")
+            .Editable(true)
+            .Date(DateTime.Now)
+            .StartTime(DateTime.MinValue)
+            .Views(views =>
+            {
+                views.TimelineMonthView(timeline =>
+                {
+                    timeline.StartTime(DateTime.MinValue);
+                    timeline.EndTime(DateTime.MaxValue);
+                    timeline.EventHeight(50);
+                });
+            })
+            .Group(group => group.Resources("Programmers").Orientation(SchedulerGroupOrientation.Vertical))
+            .Resources(resource =>
+            {
+                resource.Add(m => m.Programmers)//для окошка добавления
             .Title("Programmers")
             .Name("Programmers")
-            .Multiple(true)
+            //.Multiple(true)
             .DataTextField("Name")
             .DataValueField("ProgrammerID")
             .BindTo(@Model);
-    })
+                resource.Add(m => m.Color)
+                .Title("Color")
+                .Name("Color")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .DataColorField("Color")
+
+            .BindTo(new[] {
+                new { Text = "1", Value = "#6eb3fa", Color = "#6eb3fa" },
+                new { Text = "2", Value = "#f58a8a", Color = "#f58a8a" },
+                new { Text = "2", Value = "red", Color = "red" },
+                new { Text = "4", Value = "green", Color = "green" },
+                new { Text = "5", Value = "yellow", Color = "yellow" },
+                new { Text = "6", Value = "purple", Color = "purple" },
+                new { Text = "7", Value = "brown", Color = "brown" },
+            });
+            })
+
     .DataSource(d => d
             .Model(m =>
             {
@@ -51,19 +74,26 @@
     )
 )
 
-@*@{Html.RenderAction("Index", "Projects");}*@
+@{Html.RenderAction("Index", "Projects");}
 
 <script>
-    //$(function () {
-    //    var showProjectsRef = $(".k-scheduler-toolbar");
-    //    showProjectsRef.append("<a id=\"projectsButton\" href=\"javascript:document.getElementById('showProjectsForm').submit()\" class=\"k-link\">Проекты</a>");
-    //    showProjectsRef.bind('click', function () {
-    //        $("#window").data("kendoWindow").center().open();
+    $(function () {
+        $(".k-scheduler-toolbar").append("<a id=\"projectsButton\" href=\"javascript:document.getElementById('showProjectsForm').submit()\" class=\"k-link\">Проекты</a>");
+        $("#projectsButton").bind('click', function () {
+            $("#window").data("kendoWindow").center().open();
+            //var grid = $("#grid").data("kendoGrid");
+            //console.log(grid);
+            //grid.dataSource.read();
+        });
+        $(".k-scheduler-toolbar").append("<a id=\"logOffButton\" href=\"javascript:document.getElementById('logoutForm').submit()\" class=\"k-link\">Выйти</a>");
+    })
+</script>
+<script>
+    //function onChange(e) {
+
+    //    console.log("onChange Starts!");
+    //    this._container.find(".k-datepicker").data("kendoDatePicker").setOptions({
+    //        format: "yyyy"
     //    });
-    //    $(".k-scheduler-toolbar").append("<a id=\"logOffButton\" class=\"k-link\">Выйти</a>");
-    //})
-
-    //function onClose() {
     //}
-
 </script>

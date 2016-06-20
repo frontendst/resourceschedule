@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ResourceManagementSystem2.Models
 {
-    public class ProjectService
+    public class ProjectService : ISchedulerEventService<ProjectViewModel>
     {
         private readonly DbContext context;
 
@@ -20,28 +20,33 @@ namespace ResourceManagementSystem2.Models
             context = new DbContext();
         }
 
-        public List<ProjectViewModel> GetAll()
+        public IQueryable<ProjectViewModel> GetAll()
         {
             var projectList = context.Projects.ToList();
             var projectViewList = new List<ProjectViewModel>();
-            foreach (var a in projectList)
+            foreach (var p in projectList)
             {
-                projectViewList.Add(new ProjectViewModel(a));
+                projectViewList.Add(new ProjectViewModel(p));
             }
-            var programmerIntArray = projectList.Select(x => x.ProjectID).ToArray();
 
-
-
-            return projectViewList;
+            return projectViewList.AsQueryable();
         }
 
-        public virtual void Insert(ProjectViewModel project, ModelStateDictionary modelState)
+        public void Insert(ProjectViewModel project, ModelStateDictionary modelState)
         {
             if (ValidateModel(project, modelState))
             {
+                if (string.IsNullOrEmpty(project.Title))
+                {
+                    project.Title = "";
+                }
+
                 if (project.Programmers == null)
                 {
-                    project.Programmers = new int[0];//менял
+                    project.Programmers = new int[0];
+                    context.Projects.Add(project.ToEntity());
+                    context.SaveChanges();
+                    return;
                 }
 
                 if (string.IsNullOrEmpty(project.Title))
@@ -58,9 +63,9 @@ namespace ResourceManagementSystem2.Models
                 entity.Programmers = programmers;
 
                 var otherProgrammers = context.Programmers.ToList();
-                foreach(var oth in otherProgrammers)
+                foreach (var oth in otherProgrammers)
                 {
-                    foreach(var p in programmers)
+                    foreach (var p in programmers)
                     {
                         if (oth == p)
                         {
@@ -70,6 +75,7 @@ namespace ResourceManagementSystem2.Models
                     }
                 }
                 context.SaveChanges();
+                project.ProjectViewModelID = entity.ProjectID;
             }
         }
 
@@ -77,19 +83,36 @@ namespace ResourceManagementSystem2.Models
         {
             if (!ValidateModel(project, modelState))
                 return;
+
             if (string.IsNullOrEmpty(project.Title))
             {
                 project.Title = "";
             }
 
-            var proj = context.Projects.Where(c => c.ProjectID == project.ProjectViewModelID).FirstOrDefault();
+            if (project.Programmers == null)
+            {
+                project.Programmers = new int[0];
+            }
 
-            var usedProgrammers = proj.Programmers.Where(c => c.Projects.Contains(proj)).ToList();
+            var programmersOfUpdProjectsIds = project.Programmers;
+            var programmersOfUpdProjects = new List<Programmer>();
+            foreach (var p in programmersOfUpdProjectsIds)
+            {
+                programmersOfUpdProjects.Add(context.Programmers.Find(p));
+            }
 
-            usedProgrammers.ForEach(c => c.Projects.Remove(proj));
-            context.SaveChanges();
-            proj = project.ToEntity();
-            usedProgrammers.ForEach(c => c.Projects.Add(proj));
+            var original = context.Projects.Find(project.ProjectViewModelID);
+
+            if (original != null)
+            {
+                original.Programmers.Clear();
+                original.Programmers.AddRange(programmersOfUpdProjects);
+                original.Name = project.Title;
+                original.StartTime = project.Start;
+                original.EndTime = project.End;
+                original.Color = project.Color;
+                original.Description = project.Description;
+            }
             context.SaveChanges();
         }
 
@@ -97,10 +120,10 @@ namespace ResourceManagementSystem2.Models
         {
             if (project.Programmers == null)
             {
-                project.Programmers = new int[0];//менял
+                project.Programmers = new int[0];
             }
 
-            context.Projects.Remove(project.ToEntity());
+            context.Projects.Remove(context.Projects.First(x => x.ProjectID == project.ProjectViewModelID));
             context.SaveChanges();
         }
 

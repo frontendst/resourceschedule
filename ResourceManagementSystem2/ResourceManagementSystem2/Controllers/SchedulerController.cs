@@ -13,12 +13,8 @@ namespace ResourceManagementSystem2.Controllers
     public sealed class SchedulerController : Controller
     {
         private readonly ProgrammerService _programmerService = new ProgrammerService();
-        private readonly ProjectService _projectsService = new ProjectService();
+        private readonly ISchedulerEventService<ProjectViewModel> _projectsService = new ProjectService();
 
-        public SchedulerController()
-        {
-
-        }
         public JsonResult CreateProject([DataSourceRequest] DataSourceRequest request, ProjectViewModel project)
         {
             if (ModelState.IsValid)
@@ -53,8 +49,6 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult ReadProjects([DataSourceRequest] DataSourceRequest request)
         {
-            var a = _projectsService.GetAll();
-            //return Json(_projectsService.GetAll().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             return Json(_projectsService.GetAll().ToDataSourceResult(request));
         }
 

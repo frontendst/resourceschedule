@@ -1,6 +1,7 @@
 ﻿using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -16,8 +17,10 @@ namespace ResourceManagementSystem2.Models
 
         public string Description { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime Start { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime End { get; set; }
 
         public string StartTimezone { get; set; }
@@ -29,7 +32,7 @@ namespace ResourceManagementSystem2.Models
         public string RecurrenceException { get; set; }
         
         public string RecurrenceRule { get; set; }
-
+        
         public string Color { get; set; }
 
         public IEnumerable<int> Programmers { get; set; }
@@ -40,6 +43,7 @@ namespace ResourceManagementSystem2.Models
 
         public ProjectViewModel(Project project)
         {
+            ProjectViewModelID = project.ProjectID;
             Title = project.Name;
             Description = project.Description;
             Start = project.StartTime;
@@ -47,23 +51,43 @@ namespace ResourceManagementSystem2.Models
             StartTimezone = "";
             EndTimezone = "";
             IsAllDay = false;
-            RecurrenceException = "";
-            RecurrenceRule = "";
+            RecurrenceException = project.RecurrenceException;
+            RecurrenceRule = project.RecurrenceRule;
+            RecurrenceId = project.RecurrenceID;
             Color = project.Color;
             Programmers = project.Programmers.Select(x => x.ProgrammerID);
+            
 
         }
 
         public Project ToEntity()
         {
-            return new Project
+            var project = new Project
             {
+                ProjectID = ProjectViewModelID,
                 Name = Title,
                 Description = this.Description,
                 StartTime = Start,
                 EndTime = End,
                 Color = this.Color,
+                RecurrenceException = this.RecurrenceException,
+                RecurrenceID = this.RecurrenceId,
+                RecurrenceRule = this.RecurrenceRule,
             };
+
+            var resultProgrammersList = new List<Programmer>();
+            using (var context = new DbContext())
+            {
+                var programmers = context.Programmers;
+                foreach(var num in Programmers)
+                {
+                    resultProgrammersList.Add(programmers.Find(num));
+                }
+            }
+
+            project.Programmers = resultProgrammersList;
+
+            return project;
         }
 
         public static ProjectViewModel[] ToViewArray(Project[] projects)
@@ -77,6 +101,5 @@ namespace ResourceManagementSystem2.Models
             }
             return viewList;
         }
-       
     }
 }

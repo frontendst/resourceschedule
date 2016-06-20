@@ -24,6 +24,12 @@ namespace ResourceManagementSystem2.Models
 
         public DateTime EndTime { get; set; }
 
+        public string RecurrenceRule { get; set; }
+
+        public int? RecurrenceID { get; set; }
+
+        public string RecurrenceException { get; set; }
+
         [Required]
         public virtual List<Programmer> Programmers { get; set; }
     }
