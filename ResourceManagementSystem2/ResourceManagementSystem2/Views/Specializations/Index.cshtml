@@ -1,0 +1,56 @@
+﻿@using ResourceManagementSystem2.Models
+@model SpecializationViewModel[]
+@{Html.Kendo().Window()
+                    .Name("specializationsWindow")
+                    .Title("Specializations Manager")
+                    .Content(
+
+    #region specializationGrid
+            Html.Kendo().Grid(Model)
+                            .Name("specializationGrid")
+                            .Events(e => { e.Edit("setTextBoxStyle");
+
+
+                            })
+                            .Columns(columns =>
+                            {
+                                columns.Bound(p => p.Name).Title("Имя").Width(200);
+                                columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+                            })
+                            .ToolBar(commands => commands.Create())
+                            .Editable(editable => editable.Mode(GridEditMode.InLine))
+                            .HtmlAttributes(new { style = "height: 550px;" })
+                            .Pageable(pageable => pageable
+                            .Input(true)
+                            .Numeric(false)
+                            )
+                            .Sortable()
+                            .Scrollable(scr => scr.Height(430))
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Model(model =>
+                                {
+                                    model.Id(p => p.SpecializationViewModelID);
+                                })
+                                .Read("Read", "Specializations")
+                                .Create("Create", "Specializations")
+                                .Destroy(d => d.Action("Destroy", "Specializations"))
+                                .Update("Update", "Specializations")
+                                .Events(e => e.Error("onError"))
+                                )
+                        .ToHtmlString()
+    #endregion
+
+                )
+                .Draggable()
+                .Resizable()
+                .Width(1200)
+                .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+                .Events(ev => ev.Close("onClose"))
+                .Visible(false)
+                .Render();
+}
+
+<script>
+
+</script>

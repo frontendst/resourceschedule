@@ -12,8 +12,7 @@ namespace ResourceManagementSystem2.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly ProgrammerService _programmerService = new ProgrammerService();
-        private readonly ISchedulerEventService<ProjectViewModel> _projectService = new ProjectService();
+        private readonly ProjectService _projectService = new ProjectService();
 
         public ActionResult Index()
         {

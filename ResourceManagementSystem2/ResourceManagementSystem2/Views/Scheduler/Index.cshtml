@@ -12,14 +12,10 @@
     @Html.AntiForgeryToken()
 }
 
-@using (Ajax.BeginForm("Index", "Projects", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "projectsView", OnFailure = "PostFailure", OnSuccess = "PostSuccess", OnComplete = "PostOnComplete" }))
-{
-    @Html.AntiForgeryToken()
-}
 
-@(Html.Kendo().Scheduler<ProjectViewModel>()
+@(Html.Kendo().Scheduler<TaskViewModel>()
             .Name("scheduler")
-            .Editable(true)
+            .Editable(e => e.Confirmation(false))
             .Date(DateTime.Now)
             .StartTime(DateTime.MinValue)
             .Views(views =>
@@ -34,47 +30,96 @@
             .Group(group => group.Resources("Programmers").Orientation(SchedulerGroupOrientation.Vertical))
             .Resources(resource =>
             {
-                resource.Add(m => m.Programmers)//для окошка добавления
-            .Title("Programmers")
-            .Name("Programmers")
-            .DataTextField("Name")
-            .DataValueField("ProgrammerID")
-            .BindTo(@Model);
+                resource.Add(m => m.Programmers)
+                .Title("Programmers")
+                .Name("Programmers")
+                .DataTextField("Name")
+                .DataValueField("ProgrammerViewModelID")
+                .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
+                  .Events(e => { e.Push("onSync");
 
-                resource.Add(m => m.Color)
-                .Title("Color")
-                .Name("Color")
-                .DataTextField("Color")
-                .DataValueField("Color")
+                  })
+                    );
+
+                resource.Add(m => m.Projects)
+                .Title("Projects")
+                .Name("Projects")
+                .DataTextField("Title")
+                .DataValueField("ProjectViewModelID")
                 .DataColorField("Color")
+                .Multiple(true)
                 .DataSource(ds => ds.Read("GetProjectColors", "Scheduler"));
+
             })
 
     .DataSource(d => d
             .Model(m =>
             {
-                m.Id(f => f.ProjectViewModelID);
-                m.Field(f => f.Title).DefaultValue("No title");
-                m.RecurrenceId(f => f.RecurrenceId);
+                m.Id(f => f.TaskViewModelID);
                 m.Field(f => f.Title).DefaultValue("No title");
             })
-            .Read("ReadProjects", "Scheduler")
-            .Create("CreateProject", "Scheduler")
-            .Destroy("DestroyProject", "Scheduler")
-            .Update("UpdateProject", "Scheduler")
+    .Read("Read", "Tasks")
+    .Create("Create", "Tasks")
+    .Destroy("Destroy", "Tasks")
+    .Update("Update", "Tasks")
     )
+
 )
 
-@{Html.RenderAction("Index", "Projects");}
+@{
+    Html.RenderAction("Index", "Projects");
+    Html.RenderAction("Index", "Programmers");
+    Html.RenderAction("Index", "Specializations");
+    }
+
+
 
 <script>
     $(function () {
-        $(".k-scheduler-toolbar").append("<a id=\"projectsButton\" href=\"javascript:document.getElementById('showProjectsForm').submit()\" class=\"k-link\">Проекты</a>");
-        $("#projectsButton").bind('click', function () {
-            $("#window").data("kendoWindow").center().open();
-        });
-        $(".k-scheduler-toolbar").append("<a id=\"logOffButton\" href=\"javascript:document.getElementById('logoutForm').submit()\" class=\"k-link\">Выйти</a>");
-    })
+        renderButtons();
+    });
+</script>
+
+
+<script id="editor" type="text/x-kendo-template">
+    <h3>Edit meeting</h3>
+
+    <div class="k-edit-label">
+        <label for="title">Title</label>
+    </div>
+    <div data-container-for="title" class="k-edit-field">
+        <input type="text" class="k-input k-textbox" name="title" data-bind="value:title">
+    </div>
+    <div data-container-for="title" class="k-edit-field">
+        <label>Start: <input data-role="datetimepicker" name="start" /></label>
+    </div>
+    <div data-container-for="title" class="k-edit-field">
+        <label>End: <input data-role="datetimepicker" name="end" /></label>
+    </div>
+
+    <select id="ownerId" data-role="dropdownlist"
+            data-value-field="ProjectViewModelID" data-source="{transport: {read: {url : '/Scheduler/GetProjectColors'}}}" data-text-field="Title">
+    </select>
+
+        @*<span title="" class="k-widget k-dropdown k-header" unselectable="on" role="listbox" aria-haspopup="true"
+              aria-expanded="false" tabindex="0" aria-disabled="false" aria-readonly="false" aria-busy="false">
+            <span unselectable="on" class="k-dropdown-wrap k-state-default">
+                <span unselectable="on" class="k-input">Maks</span>
+                <span unselectable="on" class="k-select">
+                    <span unselectable="on" class="k-icon k-i-arrow-s">select</span>
+                </span>
+            </span>
+            <select data-bind="value:Programmers" name="programmers" data-role="dropdownlist" style="display: none;"></select>
+        </span>*@
+
+        @*<div class="k-multiselect-wrap k-floatwrap" unselectable="on">
+            <ul role="listbox" unselectable="on" class="k-reset"></ul>
+            <input class="k-input k-readonly" style="width: 25px" accesskey=""
+                   autocomplete="off" role="listbox" aria-expanded="false" tabindex="0" aria-owns=""
+                   aria-disabled="false" aria-readonly="false" aria-activedescendant="fafa21ef-87cb-4897-85ae-32a019faac48" aria-busy="false">
+            <span class="k-icon k-loading k-loading-hidden"></span>
+        </div>*@
+
 </script>
 
 

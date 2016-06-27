@@ -17,5 +17,7 @@ namespace ResourceManagementSystem2.Models
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<Specialization> Specializations { get; set; }
+
+        public DbSet<Task> Tasks { get; set; }
     }
 }

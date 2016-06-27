@@ -12,20 +12,18 @@ namespace ResourceManagementSystem2.Models
     {
         public Programmer()
         {
-            Specializations = new List<Specialization>();
-            Projects = new List<Project>();
+            Tasks = new List<Task>();
         }
 
         public int ProgrammerID { get; set; }
 
         public string Name { get; set; }
 
-        public string Surname { get; set; }
+        public int? SpecializationID { get; set; }
+
+        public virtual Specialization Specialization { get; set; }
 
         [Required]
-        public virtual List<Specialization> Specializations { get; set; }
-
-        [Required]
-        public virtual List<Project> Projects { get; set; }
+        public virtual List<Task> Tasks { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace ResourceManagementSystem2.Models
     {
         public Project()
         {
-            Programmers = new List<Programmer>();
+            Tasks = new List<Task>();
         }
 
         public int ProjectID { get; set; }
@@ -20,17 +20,7 @@ namespace ResourceManagementSystem2.Models
 
         public string Color { get; set; }
 
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
-
-        public string RecurrenceRule { get; set; }
-
-        public int? RecurrenceID { get; set; }
-
-        public string RecurrenceException { get; set; }
-
         [Required]
-        public virtual List<Programmer> Programmers { get; set; }
+        public virtual List<Task> Tasks { get; set; }
     }
 }

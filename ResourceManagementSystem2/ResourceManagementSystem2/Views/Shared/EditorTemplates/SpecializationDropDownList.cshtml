@@ -1,0 +1,12 @@
+﻿@using ResourceManagementSystem2.Models
+@using Kendo.Mvc.UI
+@model SpecializationViewModel
+
+
+@(Html.Kendo().DropDownListFor(m => m)
+          .DataTextField("Name")
+          .DataValueField("SpecializationViewModelID")
+          .DataSource(ds => ds.Read("ReadForDropdown", "Specializations"))
+          .OptionLabel("Выберите из списка...")
+          .HtmlAttributes(new { required = "required"})
+)

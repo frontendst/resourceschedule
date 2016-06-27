@@ -804,6 +804,7 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\Scripts.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -2056,23 +2057,31 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProgrammersController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Controllers\SpecializationsController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProgrammerService.cs" />
+    <Compile Include="Models\DatabaseEntities\Task.cs" />
+    <Compile Include="Models\Services\ProgrammerService.cs" />
     <Compile Include="Models\Exceptions\IncorrectPasswordException.cs" />
     <Compile Include="Models\LoginChecker.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\DatabaseEntities\Programmer.cs" />
     <Compile Include="Models\DatabaseEntities\Project.cs" />
-    <Compile Include="Models\ProjectService.cs" />
+    <Compile Include="Models\ViewModels\ProgrammerViewModel.cs" />
+    <Compile Include="Models\Services\ProjectService.cs" />
     <Compile Include="Models\DatabaseEntities\Specialization.cs" />
     <Compile Include="Models\DatabaseEntities\DbContext.cs" />
     <Compile Include="Models\Exceptions\UserNotFoundException.cs" />
-    <Compile Include="Models\ProjectViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProjectViewModel.cs" />
+    <Compile Include="Models\Services\SpecializationService.cs" />
+    <Compile Include="Models\ViewModels\SpecializationViewModel.cs" />
+    <Compile Include="Models\Services\TaskService.cs" />
+    <Compile Include="Models\ViewModels\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2082,7 +2091,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -2328,8 +2336,10 @@
     <Content Include="Scripts\kendo\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Views\Projects\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ColorPicker.cshtml" />
+    <Content Include="Views\Programmers\Index.cshtml" />
+    <Content Include="Views\Specializations\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SpecializationDropDownList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

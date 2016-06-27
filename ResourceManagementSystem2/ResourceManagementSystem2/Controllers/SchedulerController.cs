@@ -12,13 +12,13 @@ namespace ResourceManagementSystem2.Controllers
     public sealed class SchedulerController : Controller
     {
         private readonly ProgrammerService _programmerService = new ProgrammerService();
-        private readonly ISchedulerEventService<ProjectViewModel> _projectsService = new ProjectService();
+        private readonly ProjectService _projectsService = new ProjectService();
 
         public JsonResult CreateProject([DataSourceRequest] DataSourceRequest request, ProjectViewModel project)
         {
             if (ModelState.IsValid)
             {
-                _projectsService.Insert(project, ModelState);
+                _projectsService.Insert(project);
             }
 
             return Json(new[] { project }.ToDataSourceResult(request, ModelState));
@@ -28,21 +28,30 @@ namespace ResourceManagementSystem2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _projectsService.Delete(project, ModelState);
+                _projectsService.Delete(project);
             }
 
-            return Json(new[] { project }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { project }.ToDataSourceResult(request));
         }
 
         public ActionResult Index()
         {
-            var programmers = _programmerService.GetProgrammers();
+
+            var programmers = _programmerService.GetProgramerEntities();
             foreach (var p in programmers)
             {
-                p.Projects.ForEach(x => x.Programmers = null);
-                p.Specializations.ForEach(x => x.Programmers = null);
+                if (p.Specialization != null)
+                {
+                    p.Specialization.Programmers = null;
+                }
+                if (p.Tasks != null)
+                {
+                    p.Tasks.ForEach(x => x.Programmer = null);
+                }
+
             }
-            return View(programmers);
+            var debug = programmers.ToArray();
+            return View(programmers.ToArray());
         }
 
         public JsonResult ReadProjects([DataSourceRequest] DataSourceRequest request)
@@ -59,7 +68,7 @@ namespace ResourceManagementSystem2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _projectsService.Update(project, ModelState);
+                _projectsService.Update(project);
             }
 
             return Json(new[] { project }.ToDataSourceResult(request, ModelState));
