@@ -2,7 +2,6 @@
 function onSync(request) {
     console.log("onSync() starts");
     var scheduler = $('#scheduler').data('kendoScheduler');
-    scheduler.resources[1].dataSource.read();
     scheduler.resources[0].dataSource.read();
 
     scheduler.dataSource.read();
@@ -14,14 +13,14 @@ function onChange() {
     var scheduler = $('#scheduler').data('kendoScheduler');
     console.log(scheduler.view());
     scheduler.view(scheduler.view().name);
-
 }
 
 function onClose() {
     console.log("onClose() starts");
     var scheduler = $('#scheduler').data('kendoScheduler');
-    scheduler.resources[1].dataSource.read();
+    scheduler.resources[0].dataSource.read();
     scheduler.dataSource.read();
+    scheduler.view(scheduler.view().name);
 }
 
 function setTextBoxStyle () {

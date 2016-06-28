@@ -33,9 +33,9 @@ namespace ResourceManagementSystem2.Models
 
         public string RecurrenceRule { get; set; }
 
-        public IEnumerable<int> Programmers { get; set; }
+        public int ProgrammerID { get; set; }
 
-        public IEnumerable<int> Projects { get; set; }
+        public int ProjectID { get; set; }
 
         public string Color { get; set; }
 
@@ -43,7 +43,6 @@ namespace ResourceManagementSystem2.Models
         public TaskViewModel(Task task)
         {
             TaskViewModelID = task.TaskID;
-            Title = task.Text;
             Description = task.Text;
             Start = task.StartTime;
             End = task.EndTime;
@@ -52,11 +51,15 @@ namespace ResourceManagementSystem2.Models
             IsAllDay = false;
             RecurrenceException = null;
             RecurrenceRule = null;
-            Programmers = new int[] { task.ProgrammerID};
-            Projects = new int[] { task.ProjectID };
+            ProgrammerID = task.ProgrammerID;
+            ProjectID = task.ProjectID;
+
             using (var context = new DbContext())
             {
-                Color = context.Projects.Find(task.ProjectID).Color;
+                var project = context.Projects.Find(task.ProjectID);
+
+                Color = project.Color;
+                Title = project.Name;
             }
         }
 
@@ -65,7 +68,7 @@ namespace ResourceManagementSystem2.Models
             var programmer = new Programmer();
             using (var context = new DbContext())
             {
-                programmer = context.Programmers.Find(Programmers.First());
+                programmer = context.Programmers.Find(ProgrammerID);
             }
 
             var task = new Task
@@ -75,8 +78,8 @@ namespace ResourceManagementSystem2.Models
                 StartTime = Start,
                 EndTime = End,
                 Programmer = programmer,
-                ProgrammerID = this.Programmers.First(),
-                ProjectID = this.Projects.First()
+                ProgrammerID = this.ProgrammerID,
+                ProjectID = this.ProjectID
             };
             return task;
         }

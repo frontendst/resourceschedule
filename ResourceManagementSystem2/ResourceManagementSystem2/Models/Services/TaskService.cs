@@ -46,9 +46,16 @@ namespace ResourceManagementSystem2.Models
             {
                 task.Description = "";
             }
+
+            var project = context.Projects.Find(task.ProjectID);
+            task.Color = project.Color;
+            task.Title = project.Name;
+
             var entity = task.ToEntity();
-            entity.Project = context.Projects.Find(task.Projects.First());
-            entity.Programmer = context.Programmers.Find(task.Programmers.First());
+            //entity.Project = context.Projects.Find(task.Projects.First());
+            entity.Project = context.Projects.Find(task.ProjectID);
+            //entity.Programmer = context.Programmers.Find(task.Programmers.First());
+            entity.Programmer = context.Programmers.Find(task.ProgrammerID);
             entity.ProjectID = entity.Project.ProjectID;
             entity.ProgrammerID = entity.Programmer.ProgrammerID;
             context.Tasks.Add(entity);

@@ -12,10 +12,19 @@
     @Html.AntiForgeryToken()
 }
 
+@{
+    var str = @"
+        <div class='task-template' style='background-color:#=Color#; '>
+            <p>
+                #:title#
+            </p>
+        </div>";
+}
 
 @(Html.Kendo().Scheduler<TaskViewModel>()
             .Name("scheduler")
-            .Editable(e => e.Confirmation(false))
+            .Editable(e => e.TemplateId("editor"))
+            .EventTemplate(str)
             .Date(DateTime.Now)
             .StartTime(DateTime.MinValue)
             .Views(views =>
@@ -27,30 +36,34 @@
                     timeline.EventHeight(50);
                 });
             })
-            .Group(group => group.Resources("Programmers").Orientation(SchedulerGroupOrientation.Vertical))
-            .Resources(resource =>
-            {
-                resource.Add(m => m.Programmers)
-                .Title("Programmers")
-                .Name("Programmers")
-                .DataTextField("Name")
-                .DataValueField("ProgrammerViewModelID")
-                .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
-                  .Events(e => { e.Push("onSync");
+            .Group(group => group.Resources("ProgrammerID").Orientation(SchedulerGroupOrientation.Vertical))
+    .Resources(resource =>
+    {
+        resource.Add(m => m.ProgrammerID)
+        .Title("ProgrammerID")
+        .Name("ProgrammerID")
+        .DataTextField("Name")
+        .DataValueField("ProgrammerViewModelID")
+        .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
+          .Events(e =>
+          {
+              e.Push("onSync");
 
-                  })
-                    );
+          })
+        );
 
-                resource.Add(m => m.Projects)
-                .Title("Projects")
-                .Name("Projects")
+        resource.Add(m => m.ProjectID)
+                .Title("ProjectID")
+                .Name("ProjectID")
                 .DataTextField("Title")
                 .DataValueField("ProjectViewModelID")
                 .DataColorField("Color")
-                .Multiple(true)
+                //.Multiple(true)
                 .DataSource(ds => ds.Read("GetProjectColors", "Scheduler"));
 
-            })
+
+
+    })
 
     .DataSource(d => d
             .Model(m =>
@@ -70,56 +83,46 @@
     Html.RenderAction("Index", "Projects");
     Html.RenderAction("Index", "Programmers");
     Html.RenderAction("Index", "Specializations");
-    }
+        }
 
 
 
 <script>
     $(function () {
-        renderButtons();
-    });
+            renderButtons();
+        });
 </script>
 
 
 <script id="editor" type="text/x-kendo-template">
-    <h3>Edit meeting</h3>
+    <h4>SetUp Your Task</h4>
 
-    <div class="k-edit-label">
-        <label for="title">Title</label>
-    </div>
-    <div data-container-for="title" class="k-edit-field">
-        <input type="text" class="k-input k-textbox" name="title" data-bind="value:title">
-    </div>
-    <div data-container-for="title" class="k-edit-field">
-        <label>Start: <input data-role="datetimepicker" name="start" /></label>
-    </div>
-    <div data-container-for="title" class="k-edit-field">
-        <label>End: <input data-role="datetimepicker" name="end" /></label>
-    </div>
+        <div class="k-edit-label">
+            <label for="title">Title</label>
+        </div>
 
-    <select id="ownerId" data-role="dropdownlist"
-            data-value-field="ProjectViewModelID" data-source="{transport: {read: {url : '/Scheduler/GetProjectColors'}}}" data-text-field="Title">
-    </select>
+        <div data-container-for="title" class="k-edit-field">
+            <label>Start: <input data-role="datepicker" name="start" /></label>
+        </div>
+        <div data-container-for="title" class="k-edit-field">
+            <label> End:&nbsp;&nbsp;<input data-role="datepicker" name="end" /></label>
+        </div>
 
-        @*<span title="" class="k-widget k-dropdown k-header" unselectable="on" role="listbox" aria-haspopup="true"
-              aria-expanded="false" tabindex="0" aria-disabled="false" aria-readonly="false" aria-busy="false">
-            <span unselectable="on" class="k-dropdown-wrap k-state-default">
-                <span unselectable="on" class="k-input">Maks</span>
-                <span unselectable="on" class="k-select">
-                    <span unselectable="on" class="k-icon k-i-arrow-s">select</span>
-                </span>
-            </span>
-            <select data-bind="value:Programmers" name="programmers" data-role="dropdownlist" style="display: none;"></select>
-        </span>*@
+        <select data-role="dropdownlist" data-bind="value:ProjectID"
+                data-value-field="ProjectViewModelID" data-source="{transport: {read: {url : '/Scheduler/GetProjectColors'}}}" data-text-field="Title"></select>
+        @*<br />*@
 
-        @*<div class="k-multiselect-wrap k-floatwrap" unselectable="on">
-            <ul role="listbox" unselectable="on" class="k-reset"></ul>
-            <input class="k-input k-readonly" style="width: 25px" accesskey=""
-                   autocomplete="off" role="listbox" aria-expanded="false" tabindex="0" aria-owns=""
-                   aria-disabled="false" aria-readonly="false" aria-activedescendant="fafa21ef-87cb-4897-85ae-32a019faac48" aria-busy="false">
-            <span class="k-icon k-loading k-loading-hidden"></span>
-        </div>*@
+        <select data-bind="value:ProgrammerID" name="programmers" data-text-field="Name" data-role="dropdownlist" style="display: none;"
+                data-value-field="ProgrammerViewModelID" data-source="{transport: {read: {url : '/Programmers/ReadForScheduler'}}}"></select>
+
+        @*<input  data-source="{transport: {read: {url : '/Programmers/ReadForScheduler'}}}"/>*@
+
+        @*<br /> <br />*@
+
 
 </script>
 
 
+<style>
+
+</style>

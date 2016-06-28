@@ -61,6 +61,7 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult GetProjectColors()
         {
+            var deb = _projectsService.GetAll();
             return Json(_projectsService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 

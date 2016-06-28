@@ -24,7 +24,7 @@ div[data-container-for="recurrenceRule"] {
 #specializationsButton {
     display: inline-block;
     float: right;
-    border-color:red;
+    border-color: red;
 }
 
 .customer-photo {
@@ -38,7 +38,7 @@ div[data-container-for="recurrenceRule"] {
     line-height: 32px;
     box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
     margin-left: 5px;
-    }
+}
 
 .customer-name {
     display: inline-block;
@@ -47,3 +47,14 @@ div[data-container-for="recurrenceRule"] {
     padding-left: 3px;
 }
 
+.k-event {
+    border: none;
+}
+
+.task-template {
+    height: 100%;
+}
+
+.task-template p {
+      margin: 0;
+}
