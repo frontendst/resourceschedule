@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ResourceManagementSystem2.Controllers
 {
+    [Authorize]
     public sealed class SchedulerController : Controller
     {
         private readonly ProgrammerService _programmerService = new ProgrammerService();

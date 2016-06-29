@@ -41,6 +41,7 @@
               .Update("Update", "Programmers")
               .Events(e => {
                   e.Sync("onSync");
+                  e.Change("onChange");//fix me много он чейндж
               }
 
            )).ToHtmlString()
