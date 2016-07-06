@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace ResourceManagementSystem2.Models
@@ -37,8 +38,9 @@ namespace ResourceManagementSystem2.Models
 
         public int ProjectID { get; set; }
 
-        public string Color { get; set; }
+        public int? SpecializationID { get; set; }
 
+        public string Color { get; set; }
 
         public TaskViewModel(Task task)
         {
@@ -53,14 +55,15 @@ namespace ResourceManagementSystem2.Models
             RecurrenceRule = null;
             ProgrammerID = task.ProgrammerID;
             ProjectID = task.ProjectID;
+           
 
-            using (var context = new DbContext())
-            {
-                var project = context.Projects.Find(task.ProjectID);
-
-                Color = project.Color;
-                Title = project.Name;
-            }
+            //using (var context = new DbContext())
+            //{
+            //    var project = context.Projects.Find(task.ProjectID);
+            //    SpecializationID = context.Programmers.Find(task.ProgrammerID).SpecializationID;
+            //    Color = project.Color;
+            //    Title = project.Name;
+            //}
         }
 
         public Task ToEntity()

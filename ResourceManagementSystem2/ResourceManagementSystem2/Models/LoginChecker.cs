@@ -13,7 +13,7 @@ namespace ResourceManagementSystem2.Models
     {
         public static bool IsAllowedUser(string username, string password)
         {
-            //return true;
+            return true;
             //заглушка
             const string ldapPath = "LDAP://local.st.by/DC=local,DC=st,DC=by";
 

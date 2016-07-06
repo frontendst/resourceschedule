@@ -27,7 +27,7 @@ namespace ResourceManagementSystem2.Models
             Title = project.Name;
             Description = project.Description;
             Color = (project.Color != null && project.Color != "")? project.Color : "#ffffff";
-            Tasks = project.Tasks.Select(x => x.TaskID);
+            Tasks = null;// project.Tasks.Select(x => x.TaskID);
         }
 
         public Project ToEntity()

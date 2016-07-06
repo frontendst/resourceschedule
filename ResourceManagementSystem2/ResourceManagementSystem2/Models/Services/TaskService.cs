@@ -20,16 +20,62 @@ namespace ResourceManagementSystem2.Models
             context = new DbContext();
         }
 
-        public IQueryable<TaskViewModel> GetAll()
+        public IQueryable<TaskViewModel> GetAll(int month, int year)
         {
-            var taskList = context.Tasks.ToList();
-            var taskViewList = new List<TaskViewModel>();
-            foreach (var t in taskList)
-            {
-                taskViewList.Add(new TaskViewModel(t));
-            }
+            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
 
-            return taskViewList.AsQueryable();
+            myStopwatch.Start(); //запуск
+
+            IQueryable<TaskViewModel> list = null;
+            if (month == 0)
+            {
+                list = from tasks in context.Tasks
+                       join projects in context.Projects on tasks.ProjectID equals projects.ProjectID
+                       join programmers in context.Programmers on tasks.ProgrammerID equals programmers.ProgrammerID
+                       select new TaskViewModel()
+                       {
+                           Color = projects.Color,
+                           TaskViewModelID = tasks.TaskID,
+                           Title = projects.Name,
+                           Description = tasks.Text,
+                           Start = tasks.StartTime,
+                           End = tasks.EndTime,
+                           StartTimezone = "",
+                           EndTimezone = "",
+                           IsAllDay = false,
+                           RecurrenceException = null,
+                           RecurrenceRule = null,
+                           ProgrammerID = tasks.ProgrammerID,
+                           ProjectID = tasks.ProjectID,
+                           SpecializationID = programmers.SpecializationID
+                       };
+            }
+            else
+            {
+               list = from tasks in context.Tasks
+                          join projects in context.Projects on tasks.ProjectID equals projects.ProjectID
+                          join programmers in context.Programmers on tasks.ProgrammerID equals programmers.ProgrammerID
+                          where ((tasks.StartTime.Month <= month) && (tasks.StartTime.Month >= month) && (tasks.StartTime.Year == tasks.EndTime.Year))
+                          select new TaskViewModel()
+                          {
+                                Color = projects.Color,
+                                TaskViewModelID = tasks.TaskID,
+                                Title = projects.Name,
+                                Description = tasks.Text,
+                                Start = tasks.StartTime,
+                                End = tasks.EndTime,
+                                StartTimezone = "",
+                                EndTimezone = "",
+                                IsAllDay = false,
+                                RecurrenceException = null,
+                                RecurrenceRule = null,
+                                ProgrammerID = tasks.ProgrammerID,
+                                ProjectID = tasks.ProjectID,
+                                SpecializationID = programmers.SpecializationID
+                          };
+            }
+            myStopwatch.Stop(); //остановить
+            return list;
         }
 
         public void Insert(TaskViewModel task, ModelStateDictionary modelState)
@@ -46,7 +92,8 @@ namespace ResourceManagementSystem2.Models
             {
                 task.Description = "";
             }
-
+            if (task.ProjectID == 0)
+                task.ProjectID = context.Projects.First().ProjectID;
             var project = context.Projects.Find(task.ProjectID);
             task.Color = project.Color;
             task.Title = project.Name;

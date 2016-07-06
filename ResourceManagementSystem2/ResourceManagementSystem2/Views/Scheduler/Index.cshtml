@@ -25,7 +25,8 @@
     .Name("scheduler")
     .Editable(e => e.TemplateId("editor"))
     .EventTemplate(taskTemplate)
-    .Events(e => e.Navigate("onTest"))
+    .Events(e => e.Navigate("onNavigate"))
+    .Events(e => e.Cancel("onCancel"))
     .Date(DateTime.Now)
     .StartTime(DateTime.Now)
     .Views(views =>
@@ -34,8 +35,11 @@
         {
             timeline.StartTime(DateTime.MinValue);
             timeline.EndTime(DateTime.MaxValue);
-            timeline.EventHeight(50);
+            timeline.EventHeight(20);
+            timeline.ColumnWidth(15);
+            timeline.DateHeaderTemplate("<strong>#=kendo.toString(date, 'dd')#</strong>");
         });
+
     })
     .Group(group => group.Resources("ProgrammerID").Orientation(SchedulerGroupOrientation.Vertical))
     .Resources(resource =>
@@ -48,7 +52,7 @@
         .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
         .Events(e =>
         {
-            e.Push("onSync");
+            //e.Push("onSync");
         })
         );
     })
@@ -59,13 +63,21 @@
                 m.Id(f => f.TaskViewModelID);
                 m.Field(f => f.Title).DefaultValue("No title");
             })
-    .Read("Read", "Tasks")
+        .Read(rd =>
+        {
+            rd.Action("Read", "Tasks").Data("getMonthAndYear");
+
+        })
     .Create("Create", "Tasks")
     .Destroy("Destroy", "Tasks")
-    .Update(upd => { upd.Action("Update", "Tasks");
-        //upd.Data("onTest");
-    })
-        //.Events(e => e.Sync("onChange"))
+        .Update(upd =>
+        {
+            upd.Action("Update", "Tasks");
+
+            //upd.Data("onTest");
+        })
+    //.Events(e => e.Sync("onChange"))
+
     )
 )
 
@@ -75,83 +87,37 @@
     Html.RenderAction("Index", "Specializations");
 }
 
-@*<div class="today" style="width:100px; height:100px; background-color:red; margin-left:150%;"></div>*@
-
 <script>
-    function onTest(e) {
-        console.log("onTest");
-        //console.log("navigate", e.date);
-        //var ths = $('th');
-        //console.log($('th').text());
-        var d = new Date().getDate();
-        var currentTh = $('th:contains(' + d + ')').first();
-        currentTh.wrap('<div id="today"></div>');
-        //console.log(currentTh);
-
-        var currentTime = $('.k-current-time').first();
-        console.log(currentTime);
-
-        $('.tbody').scrollTo('.k-today');
-
-        //var todayCell = $('.k-today').first();
-        //console.log(todayCell);
-        //todayCell.append('<div id="today">12345</div>')
-        //currentTh.wrap('<div id="today"></div>');
-        //currentTh.attr('id', 'today');
-        //console.log($('#today'));
-
-        //var container = $('div'),
-        //scrollTo = $('#today');
-
-        //container.scrollLeft(
-        //    scrollTo.offset().left - container.offset().left + container.scrollLeft()
-        //);
-
-        //currentTh.wrap('<div id="today"></div>');
-        //console.log($('#today'));
-        //currentTh.attr('id', 'today');
-        //console.log(currentTh[0]);
-
-        //$('k-scheduler-layout k-scheduler-timelineMonthview k-scrollbar-h').scrollTo(currentTh)
-
-        //$('k-scheduler-layout k-scheduler-timelineMonthview k-scrollbar-h').animate({
-        //    scrollRight: $("#today").offset().right
-        //}, 2000);
-
-        //$(window).scrollTo($('#today'));
-
-        //$('html, body').animate({
-        //    scrollTop: $("#today").offset().top
-        //}, 2000);
-
-        //for (var index = 0; index < 106; )
-        //{
-        //    console.log(th[index]);
-        //    if (th.innerText == "3 Июнь")
-        //        console.log(th);
-        //}
-
-        //var scheduler = $("#scheduler").data("kendoScheduler");
-        //var view = scheduler.view();
-
-        //console.log(view.startDate().toString("dd/MM/yyyy"));
-        //console.log(view.startTime().toString("dd/MM/yyyy"));
-        //console.log(e.date.toString("dd/MM/yyyy"));
-        //view.startDate(e.date);
-
-        //var scheduler = $("#scheduler").data("kendoScheduler");
-        //var options = scheduler.options;
-        //scheduler.destroy();
-        //options.startTime = new Date("2014/3/4 10:00");
-        //options.endTime = new Date("2014/3/4 29:00");
-        //$("#scheduler").empty().kendoScheduler(options);
+    function getMonthAndYear() {
+        var date = $("#scheduler").data("kendoScheduler").date();
+        console.log({
+            month: kendo.toString(date, 'MM'),
+            year: kendo.toString(date, 'yyyy')
+        });
+        return {
+            month: kendo.toString(date, 'MM'),
+            year: kendo.toString(date, 'yyyy')
+        };
     }
 
+    function onNavigate(o) {
+        var date = o.date;
+        console.log({
+            month: kendo.toString(date, 'MM'),
+            year: kendo.toString(date, 'yyyy')
+        });
+        $("#scheduler").data("kendoScheduler").dataSource.transport.options.read.url = "/Tasks/Read";
+        $("#scheduler").data("kendoScheduler").dataSource.read({
+            month: kendo.toString(date, 'MM'),
+            year: kendo.toString(date, 'yyyy')
+        });
+    }
 </script>
 
 <script>
     $(function () {
         renderButtons();
+        renderFilteringWindow();
     });
 </script>
 
@@ -185,18 +151,25 @@
 </script>
 
 <script>
-    function customizeSchedulerEditor() {
-        console.log("customizeSchedulerEditor() starts")
-        $('#proj-dropdown').kendoDropDownList({
-            optionLabel: "Select a fruit..."
-        })
+    function onCancel(e) {
+        var wnd = $(e.container).data("kendoWindow");
+        wnd.close();
+        var data = $('#scheduler').data('kendoScheduler').data();
+        console.log(data)
+        data.pop();
+        console.log(data)
 
+        var scheduler = $('#scheduler').data('kendoScheduler');
+        console.log(scheduler.dataSource.data());
+        setTimeout(function () { //плохо работает
+            scheduler.dataSource.data().pop();
+        }, 0);
+        e.preventDefault();
     }
-    customizeSchedulerEditor();
 </script>
-<script>
-    function insertPopupCaption(e) {
-        $('.k-window-title').text("add");
 
+<script>
+    function preventdef(e) {
+        e.preventDefault()
     }
 </script>

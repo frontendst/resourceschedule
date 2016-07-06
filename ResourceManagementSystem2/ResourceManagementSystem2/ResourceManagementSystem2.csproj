@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ResourceManagementSystem2</RootNamespace>
     <AssemblyName>ResourceManagementSystem2</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,6 +73,7 @@
       <HintPath>..\packages\System.Web.Optimization.Helper.0.1.2\lib\net45\OptimizationHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.Linq, Version=1.2.2.1, Culture=neutral, PublicKeyToken=15767dc0c85f19f9, processorArchitecture=MSIL">
       <HintPath>..\packages\System.DirectoryServices.Linq.1.2.2.1\lib\net45\System.DirectoryServices.Linq.dll</HintPath>
@@ -83,20 +85,18 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -130,10 +130,15 @@
     <Content Include="App_Data\RmsDb_log.ldf">
       <DependentUpon>RmsDb.mdf</DependentUpon>
     </Content>
+    <Content Include="App_Data\RmsRealData.mdf" />
+    <Content Include="App_Data\RmsRealData_log.ldf">
+      <DependentUpon>RmsRealData.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\AppScripts\Filters.js" />
     <Content Include="Content\jquery-scrollto\demo\index.html" />
     <Content Include="Content\jquery-scrollto\index.html" />
     <Content Include="Content\jquery-scrollto\lib\jquery-scrollto.js" />
@@ -813,7 +818,7 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="Content\Scripts.js" />
+    <Content Include="Content\AppScripts\Scripts.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -906,7 +911,6 @@
     <Content Include="Content\kendo\images\kendoui.woff" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\scroll\scrollTo.jquery.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

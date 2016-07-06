@@ -3,13 +3,13 @@
 @{Html.Kendo().Window()
       .Name("programmersWindow")
       .Title("Programmers Manager")
-      .Events(e => e.Close("onClose"))
+      //.Events(e => e.Close("onClose"))
       .Content(
 
 #region programmersGrid
           Html.Kendo().Grid(Model)
           .Name("programmersGrid")
-          .Events(e => { e.Edit("setTextBoxStyle");
+          .Events(e => { //e.Edit("setTextBoxStyle");
           })
           .Columns(columns =>
           {
@@ -40,8 +40,8 @@
               .Destroy("Destroy", "Programmers")
               .Update("Update", "Programmers")
               .Events(e => {
-                  e.Sync("onSync");
-                  e.Change("onChange");//fix me много он чейндж
+                //  e.Sync("onSync");
+                 // e.Change("onChange");//fix me много он чейндж
               }
 
            )).ToHtmlString()

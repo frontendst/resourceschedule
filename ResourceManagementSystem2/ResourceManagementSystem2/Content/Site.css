@@ -18,13 +18,12 @@ div[data-container-for="recurrenceRule"] {
     margin: 43px 0 0 0;
 }
 
-#logOffButton,
-#projectsButton,
-#programmersButton,
-#specializationsButton {
+.control-but {
     display: inline-block;
     float: right;
-    border-color: red;
+    border-color: #999;
+    background-color : #484c57;
+    margin-left: 5px;
 }
 
 .customer-photo {
@@ -58,7 +57,7 @@ div[data-container-for="recurrenceRule"] {
 
 .text-block {
     display:inline-block;
-    margin-top : 13px;
+    font-size:10px;
 }
 
 .task-template p {

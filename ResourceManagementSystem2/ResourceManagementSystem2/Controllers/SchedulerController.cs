@@ -41,17 +41,12 @@ namespace ResourceManagementSystem2.Controllers
             var programmers = _programmerService.GetProgramerEntities();
             foreach (var p in programmers)
             {
-                if (p.Specialization != null)
-                {
-                    p.Specialization.Programmers = null;
-                }
-                if (p.Tasks != null)
-                {
-                    p.Tasks.ForEach(x => x.Programmer = null);
-                }
+                p.Specialization = null;
+
+                p.Tasks = null;
 
             }
-            var debug = programmers.ToArray();
+            //var debug = programmers.ToArray();
             return View(programmers.ToArray());
         }
 
@@ -62,7 +57,7 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult GetProjectColors()
         {
-            var deb = _projectsService.GetAll();
+            //var deb = _projectsService.GetAll();
             return Json(_projectsService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 

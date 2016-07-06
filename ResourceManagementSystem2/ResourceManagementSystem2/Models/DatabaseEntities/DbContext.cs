@@ -8,8 +8,15 @@ namespace ResourceManagementSystem2.Models
 {
     public class DbContext : System.Data.Entity.DbContext
     {
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Task>()
+        //        .Property(p => p.Month).
+        //        .HasComputedColumnSql("MONTH([StartTime])");
+        //}
+
         public DbContext()
-            : base("RmsConnection")
+            : base("RmsRealDataConnection")
         { }
 
         public DbSet<Programmer> Programmers { get; set; }

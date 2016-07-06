@@ -8,7 +8,7 @@
 #region projectsGrid
         Html.Kendo().Grid(Model)
             .Name("projectsGrid")
-            .Events(e => { e.Edit("setTextBoxStyle");
+            .Events(e => { //e.Edit("setTextBoxStyle");
               //e.Save("onSave");
           })
             .Columns(columns =>
@@ -39,7 +39,7 @@
                   .Create("CreateProject", "Scheduler")
                   .Destroy("DestroyProject", "Scheduler")
                   .Update("UpdateProject", "Scheduler")
-                  .Events(e => e.Sync("onSync"))
+                  //.Events(e => e.Sync("onSync"))
                   )
               .ToHtmlString()
 #endregion

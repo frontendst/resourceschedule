@@ -8,7 +8,7 @@
     #region specializationGrid
             Html.Kendo().Grid(Model)
                 .Name("specializationGrid")
-                .Events(e => { e.Edit("setTextBoxStyle");
+                .Events(e => {// e.Edit("setTextBoxStyle");
                     
                 })
                 .Columns(columns =>
@@ -35,7 +35,7 @@
                     .Create("Create", "Specializations")
                     .Destroy(d => d.Action("Destroy", "Specializations"))
                     .Update("Update", "Specializations")
-                    .Events(e => e.Error("onError"))
+                    ///.Events(e => e.Error("onError"))
                     )
             .ToHtmlString()
     #endregion
@@ -45,7 +45,7 @@
                 .Resizable()
                 .Width(1200)
                 .Actions(actions => actions.Pin().Minimize().Maximize().Close())
-                .Events(ev => ev.Close("onClose"))
+                //.Events(ev => ev.Close("onClose"))
                 .Visible(false)
                 .Render();
 }

@@ -16,7 +16,7 @@ namespace ResourceManagementSystem2.Controllers
 
         public ActionResult Index()
         {
-            var debug = _programmerService.GetAll().ToArray();
+           // var debug = _programmerService.GetAll().ToArray();
             return View(_programmerService.GetAll().ToArray());
         }
 
@@ -42,13 +42,19 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            var debug = _programmerService.GetAll();
-            return Json(_programmerService.GetAll().ToDataSourceResult(request));
+            //var debug = _programmerService.GetAll(request.Page, request.PageSize);
+           
+            var result = _programmerService.GetAll(request.Page, request.PageSize);
+
+            request.Page = 0;
+            var dataSourceResult = result.ToDataSourceResult(request);
+            dataSourceResult.Total = _programmerService.Count();
+            return Json(dataSourceResult);
         }
 
         public JsonResult ReadForScheduler()
         {
-            var debug = _programmerService.GetAll();
+            //var debug = _programmerService.GetAll();
             return Json(_programmerService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 
@@ -60,6 +66,8 @@ namespace ResourceManagementSystem2.Controllers
             }
             return Json( programmer, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }
 

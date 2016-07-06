@@ -42,13 +42,13 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            var a = _specializationService.GetAll();//дебаг
+            //var a = _specializationService.GetAll();//дебаг
             return Json(_specializationService.GetAll().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ReadForDropdown()
         {
-            var a = _specializationService.GetAll();//дебаг
+           // var a = _specializationService.GetAll();//дебаг
             return Json(_specializationService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 
