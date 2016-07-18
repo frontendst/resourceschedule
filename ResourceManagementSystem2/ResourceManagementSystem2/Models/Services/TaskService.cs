@@ -22,10 +22,6 @@ namespace ResourceManagementSystem2.Models
 
         public IQueryable<TaskViewModel> GetAll(int month, int year)
         {
-            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
-
-            myStopwatch.Start(); //запуск
-
             IQueryable<TaskViewModel> list = null;
             if (month == 0)
             {
@@ -37,7 +33,6 @@ namespace ResourceManagementSystem2.Models
                            Color = projects.Color,
                            TaskViewModelID = tasks.TaskID,
                            Title = projects.Name,
-                           Description = tasks.Text,
                            Start = tasks.StartTime,
                            End = tasks.EndTime,
                            StartTimezone = "",
@@ -47,7 +42,9 @@ namespace ResourceManagementSystem2.Models
                            RecurrenceRule = null,
                            ProgrammerID = tasks.ProgrammerID,
                            ProjectID = tasks.ProjectID,
-                           SpecializationID = programmers.SpecializationID
+                           SpecializationID = programmers.SpecializationID,
+                           Charge = tasks.Charge
+
                        };
             }
             else
@@ -61,7 +58,6 @@ namespace ResourceManagementSystem2.Models
                                 Color = projects.Color,
                                 TaskViewModelID = tasks.TaskID,
                                 Title = projects.Name,
-                                Description = tasks.Text,
                                 Start = tasks.StartTime,
                                 End = tasks.EndTime,
                                 StartTimezone = "",
@@ -71,10 +67,10 @@ namespace ResourceManagementSystem2.Models
                                 RecurrenceRule = null,
                                 ProgrammerID = tasks.ProgrammerID,
                                 ProjectID = tasks.ProjectID,
-                                SpecializationID = programmers.SpecializationID
+                                SpecializationID = programmers.SpecializationID,
+                                Charge = tasks.Charge
                           };
             }
-            myStopwatch.Stop(); //остановить
             return list;
         }
 
@@ -99,9 +95,7 @@ namespace ResourceManagementSystem2.Models
             task.Title = project.Name;
 
             var entity = task.ToEntity();
-            //entity.Project = context.Projects.Find(task.Projects.First());
             entity.Project = context.Projects.Find(task.ProjectID);
-            //entity.Programmer = context.Programmers.Find(task.Programmers.First());
             entity.Programmer = context.Programmers.Find(task.ProgrammerID);
             entity.ProjectID = entity.Project.ProjectID;
             entity.ProgrammerID = entity.Programmer.ProgrammerID;
@@ -129,7 +123,7 @@ namespace ResourceManagementSystem2.Models
                 original.EndTime = entityTask.EndTime;
                 original.Programmer = context.Programmers.Find(entityTask.ProgrammerID);
                 original.Project = context.Projects.Find(entityTask.ProjectID);
-                original.Text = entityTask.Text;
+                original.Charge = entityTask.Charge;
             }
             context.SaveChanges();
         }

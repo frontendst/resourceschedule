@@ -8,8 +8,8 @@
     #region specializationGrid
             Html.Kendo().Grid(Model)
                 .Name("specializationGrid")
-                .Events(e => {// e.Edit("setTextBoxStyle");
-                    
+                .Events(e => {
+                    e.Edit("setTextBoxStyle");
                 })
                 .Columns(columns =>
                 {

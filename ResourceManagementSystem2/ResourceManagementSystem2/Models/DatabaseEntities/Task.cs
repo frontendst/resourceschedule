@@ -10,11 +10,11 @@ namespace ResourceManagementSystem2.Models
     {
         public int TaskID { get; set; }
 
-        public string Text { get; set; }
-        //[Index]
         public DateTime StartTime { get; set; }
-        //[Index]
+
         public DateTime EndTime { get; set; }
+
+        public float Charge { get; set; }
 
         public int ProgrammerID { get; set; }
         public Programmer Programmer { get; set; }

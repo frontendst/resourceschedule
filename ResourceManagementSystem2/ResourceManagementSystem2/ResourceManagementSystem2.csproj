@@ -134,6 +134,13 @@
     <Content Include="App_Data\RmsRealData_log.ldf">
       <DependentUpon>RmsRealData.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\AppScripts\AddWindow.js" />
+    <Content Include="Content\AppScripts\ColorService.js" />
+    <Content Include="Content\AppScripts\EditWindow.js" />
+    <Content Include="Content\AppScripts\Projects.js" />
+    <Content Include="Content\AppScripts\RemoveWIndow.js" />
+    <Content Include="Content\AppScripts\Scheduler.js" />
+    <Content Include="Content\AppScripts\WeekendsWindow.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -818,7 +825,7 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="Content\AppScripts\Scripts.js" />
+    <Content Include="Content\AppScripts\Init.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -919,6 +926,7 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.colorize-2.0.0.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

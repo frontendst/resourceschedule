@@ -38,16 +38,16 @@ namespace ResourceManagementSystem2.Controllers
         public ActionResult Index()
         {
 
-            var programmers = _programmerService.GetProgramerEntities();
-            foreach (var p in programmers)
-            {
-                p.Specialization = null;
+            //var programmers = _programmerService.GetProgramerEntities();
+            //foreach (var p in programmers)
+            //{
+            //    p.Specialization = null;
 
-                p.Tasks = null;
+            //    p.Tasks = null;
 
-            }
-            //var debug = programmers.ToArray();
-            return View(programmers.ToArray());
+            //}
+            // return View(programmers.ToArray());
+            return View();
         }
 
         public JsonResult ReadProjects([DataSourceRequest] DataSourceRequest request)

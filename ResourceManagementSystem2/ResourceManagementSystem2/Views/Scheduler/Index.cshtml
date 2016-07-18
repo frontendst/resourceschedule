@@ -1,7 +1,5 @@
 ﻿@using ResourceManagementSystem2.Models
 @using Kendo.Mvc.UI
-@model Programmer[]
-
 @{
     ViewBag.Title = "Resource Management System";
 }
@@ -16,7 +14,7 @@
     var taskTemplate = @"
         <div class='task-template' style='background-color:#=Color#;'>
             <p>
-               <div class='text-block'> #:title# </div>
+               <div class='text-block'> #:title# (#=Charge*100#%) </div>
             </p>
         </div>";
 }
@@ -26,7 +24,9 @@
     .Editable(e => e.TemplateId("editor"))
     .EventTemplate(taskTemplate)
     .Events(e => e.Navigate("onNavigate"))
-    .Events(e => e.Cancel("onCancel"))
+    .Events(e => e.Add("onTaskAdd"))
+    .Events(e => e.Remove("onTaskRemove"))
+    .Events(e => e.DataBound("handleEditEvent"))
     .Date(DateTime.Now)
     .StartTime(DateTime.Now)
     .Views(views =>
@@ -50,34 +50,33 @@
         .DataTextField("Name")
         .DataValueField("ProgrammerViewModelID")
         .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
-        .Events(e =>
-        {
-            //e.Push("onSync");
-        })
         );
     })
 
     .DataSource(d => d
-            .Model(m =>
-            {
-                m.Id(f => f.TaskViewModelID);
-                m.Field(f => f.Title).DefaultValue("No title");
-            })
-        .Read(rd =>
-        {
-            rd.Action("Read", "Tasks").Data("getMonthAndYear");
+    .ServerOperation(false)
+    .Model(m =>
+    {
+        m.Id(f => f.TaskViewModelID);
+        m.Field(f => f.Title).DefaultValue("No title");
+    })
+    .Read(rd =>
+    {
+        rd.Action("Read", "Tasks").Data("getMonthAndYear");
 
-        })
+    })
     .Create("Create", "Tasks")
     .Destroy("Destroy", "Tasks")
-        .Update(upd =>
-        {
-            upd.Action("Update", "Tasks");
+    .Update("Update", "Tasks")
+    //.Events(e => e.Sync("preventdef"))
 
-            //upd.Data("onTest");
-        })
-    //.Events(e => e.Sync("onChange"))
-
+    //.Events(e => e.Change("refreshScheduler"))
+    //.Events(e => e.Change("preventdef"))
+    //.Events(e => e.RequestStart("refreshScheduler"))
+    //.Events(e => e.RequestEnd("refreshScheduler"))
+    //.Events(e => e.RequestStart("preventdef"))
+    //.Events(e => e.RequestEnd("preventdef"))
+    //.Events(e => e.Sync("refreshScheduler"))
     )
 )
 
@@ -87,39 +86,6 @@
     Html.RenderAction("Index", "Specializations");
 }
 
-<script>
-    function getMonthAndYear() {
-        var date = $("#scheduler").data("kendoScheduler").date();
-        console.log({
-            month: kendo.toString(date, 'MM'),
-            year: kendo.toString(date, 'yyyy')
-        });
-        return {
-            month: kendo.toString(date, 'MM'),
-            year: kendo.toString(date, 'yyyy')
-        };
-    }
-
-    function onNavigate(o) {
-        var date = o.date;
-        console.log({
-            month: kendo.toString(date, 'MM'),
-            year: kendo.toString(date, 'yyyy')
-        });
-        $("#scheduler").data("kendoScheduler").dataSource.transport.options.read.url = "/Tasks/Read";
-        $("#scheduler").data("kendoScheduler").dataSource.read({
-            month: kendo.toString(date, 'MM'),
-            year: kendo.toString(date, 'yyyy')
-        });
-    }
-</script>
-
-<script>
-    $(function () {
-        renderButtons();
-        renderFilteringWindow();
-    });
-</script>
 
 
 <script id="editor" type="text/x-kendo-template">
@@ -150,26 +116,15 @@
     </div>
 </script>
 
-<script>
-    function onCancel(e) {
-        var wnd = $(e.container).data("kendoWindow");
-        wnd.close();
-        var data = $('#scheduler').data('kendoScheduler').data();
-        console.log(data)
-        data.pop();
-        console.log(data)
 
-        var scheduler = $('#scheduler').data('kendoScheduler');
-        console.log(scheduler.dataSource.data());
-        setTimeout(function () { //плохо работает
-            scheduler.dataSource.data().pop();
-        }, 0);
-        e.preventDefault();
-    }
-</script>
 
 <script>
-    function preventdef(e) {
-        e.preventDefault()
-    }
+    $(function () {
+        renderButtons();
+        renderFilteringWindow();
+        renderAddPopUp();
+        renderEditPopUp();
+        renderRemovePopUp();
+    });
+
 </script>

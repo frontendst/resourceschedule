@@ -42,10 +42,11 @@ namespace ResourceManagementSystem2.Models
 
         public string Color { get; set; }
 
+        public float Charge { get; set; }
+
         public TaskViewModel(Task task)
         {
             TaskViewModelID = task.TaskID;
-            Description = task.Text;
             Start = task.StartTime;
             End = task.EndTime;
             StartTimezone = "";
@@ -55,15 +56,7 @@ namespace ResourceManagementSystem2.Models
             RecurrenceRule = null;
             ProgrammerID = task.ProgrammerID;
             ProjectID = task.ProjectID;
-           
-
-            //using (var context = new DbContext())
-            //{
-            //    var project = context.Projects.Find(task.ProjectID);
-            //    SpecializationID = context.Programmers.Find(task.ProgrammerID).SpecializationID;
-            //    Color = project.Color;
-            //    Title = project.Name;
-            //}
+            Charge = task.Charge;
         }
 
         public Task ToEntity()
@@ -77,12 +70,12 @@ namespace ResourceManagementSystem2.Models
             var task = new Task
             {
                 TaskID = TaskViewModelID,
-                Text = Title,
                 StartTime = Start,
                 EndTime = End,
                 Programmer = programmer,
                 ProgrammerID = this.ProgrammerID,
-                ProjectID = this.ProjectID
+                ProjectID = this.ProjectID,
+                Charge = this.Charge
             };
             return task;
         }
