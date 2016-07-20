@@ -16,7 +16,9 @@
             {
                 columns.Bound(p => p.Name).Title("Имя").Width(100);
                 columns.Bound(p => p.Specialization).ClientTemplate("#= Specialization.Name #")
-                    .EditorTemplateName("SpecializationDropDownList").Width(100);
+                    .EditorTemplateName("SpecializationsDropDownList").Width(100);
+                columns.Bound(p => p.Department).ClientTemplate("#= Department.Name #")
+                    .EditorTemplateName("DepartmentsDropDownList").Width(100);
                 columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
             })
             .ToolBar(commands => commands.Create())
@@ -35,6 +37,7 @@
                 {
                     model.Id(p => p.ProgrammerViewModelID);
                     model.Field(p => p.Specialization).DefaultValue(new SpecializationViewModel { Name = "" });
+                    model.Field(p => p.Department).DefaultValue(new DepartmentViewModel { Name = "" });
                 })
                 .Read("Read", "Programmers")
                 .Create("Create", "Programmers")

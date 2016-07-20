@@ -65,8 +65,8 @@
         rd.Action("Read", "Tasks").Data("getMonthAndYear");
 
     })
-    .Create("Create", "Tasks")
-    .Destroy("Destroy", "Tasks")//??????
+    //.Create("Create", "Tasks")
+    //.Destroy("Destroy", "Tasks")
     .Update("Update", "Tasks")
     )
 )
@@ -76,6 +76,7 @@
     Html.RenderAction("Index", "Programmers");
     Html.RenderAction("Index", "Specializations");
     Html.RenderAction("Index", "Weekends");
+    Html.RenderAction("Index", "Departments");
 }
 
 

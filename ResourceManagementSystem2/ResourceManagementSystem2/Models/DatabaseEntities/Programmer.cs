@@ -20,8 +20,10 @@ namespace ResourceManagementSystem2.Models
         public string Name { get; set; }
 
         public int? SpecializationID { get; set; }
-
         public virtual Specialization Specialization { get; set; }
+
+        public int? DepartmentID { get; set; }
+        public virtual Department Department { get; set; }
 
         [Required]
         public virtual List<Task> Tasks { get; set; }

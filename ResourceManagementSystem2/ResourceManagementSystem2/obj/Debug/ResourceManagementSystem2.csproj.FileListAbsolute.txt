@@ -316,3 +316,5 @@ d:\SummerPractice\Rms\ResourceManagementSystem2\ResourceManagementSystem2\bin\Sy
 d:\SummerPractice\Rms\ResourceManagementSystem2\ResourceManagementSystem2\obj\Debug\ResourceManagementSystem2.csprojResolveAssemblyReference.cache
 d:\SummerPractice\Rms\ResourceManagementSystem2\ResourceManagementSystem2\obj\Debug\ResourceManagementSystem2.dll
 d:\SummerPractice\Rms\ResourceManagementSystem2\ResourceManagementSystem2\obj\Debug\ResourceManagementSystem2.pdb
+D:\SummerPractice\Repository\resourceschedule\ResourceManagementSystem2\ResourceManagementSystem2\bin\EPPlus.dll
+D:\SummerPractice\Repository\resourceschedule\ResourceManagementSystem2\ResourceManagementSystem2\bin\EPPlus.xml

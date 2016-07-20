@@ -33,7 +33,7 @@ namespace ResourceManagementSystem2.Controllers
             bool success = false;
             if (ModelState.IsValid)
             {
-                 success = _specializationService.Delete(specialization);
+                success = _specializationService.Delete(specialization);
             }
             var debug = new[] { specialization }.ToDataSourceResult(request, ModelState);
             debug.Errors = !success;

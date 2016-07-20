@@ -53,6 +53,8 @@ namespace ResourceManagementSystem2.Models
             var programmerEntity = programmer.ToEntity();
             programmerEntity.SpecializationID = programmerEntity.Specialization.SpecializationID;
             programmerEntity.Specialization = null;
+            programmerEntity.DepartmentID = programmerEntity.Department.DepartmentID;
+            programmerEntity.Department = null;
             programmerEntity = context.Programmers.Add(programmerEntity);
             context.SaveChanges();
             programmer.ProgrammerViewModelID = programmerEntity.ProgrammerID;
@@ -73,6 +75,7 @@ namespace ResourceManagementSystem2.Models
             {
                 original.Name = entityProgrammer.Name;
                 original.SpecializationID = entityProgrammer.Specialization.SpecializationID;
+                original.DepartmentID = entityProgrammer.Department.DepartmentID;
             }
 
             context.SaveChanges();

@@ -21,5 +21,7 @@ namespace ResourceManagementSystem2.Models
         public DbSet<Task> Tasks { get; set; }
 
         public DbSet<Weekend> Weekends { get; set; }
+
+        public DbSet<Department> Departments { get; set; }
     }
 }

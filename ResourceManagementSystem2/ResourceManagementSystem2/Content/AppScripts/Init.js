@@ -40,5 +40,12 @@ function renderButtons() {
         $("#weekendsWindow").data("kendoWindow").center().open();
     });
 
+    $(".k-scheduler-toolbar").append("<input id='departmentsButton' class='k-button control-but' type='button' value='Отделы' />");
+    $('#departmentsButton').bind('click', function () {
+        $("#departmentsWindow").data("kendoWindow").center().open();
+    });
+
+
+
 }
 

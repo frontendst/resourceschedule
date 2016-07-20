@@ -43,7 +43,14 @@ namespace ResourceManagementSystem2.Models
             if (specialization.Programmers != null && specialization.Programmers.First() != 0)
                 return false;
             context.Specializations.Remove(context.Specializations.Find(specialization.SpecializationViewModelID));
-            context.SaveChanges();
+            try
+            {
+                context.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
             return true;
         }
 

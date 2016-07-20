@@ -16,8 +16,10 @@ namespace ResourceManagementSystem2.Models
         public IEnumerable<int> Tasks { get; set; }
 
         public int? SpecializationID { get; set; }
-
         public SpecializationViewModel Specialization { get; set; }
+
+        public int? DepartmentID { get; set; }
+        public DepartmentViewModel Department { get; set; }
 
         public ProgrammerViewModel(Programmer programmer)
         {
@@ -26,6 +28,8 @@ namespace ResourceManagementSystem2.Models
             Tasks = null;
             SpecializationID = programmer.SpecializationID;
             Specialization = new SpecializationViewModel(programmer.Specialization);
+            DepartmentID = programmer.DepartmentID;
+            Department = new DepartmentViewModel(programmer.Department);
         }
 
         public Programmer ToEntity()
@@ -33,7 +37,8 @@ namespace ResourceManagementSystem2.Models
             var programmer =  new Programmer { Name = this.Name };
 
             programmer.ProgrammerID = ProgrammerViewModelID;
-            programmer.SpecializationID = SpecializationID; 
+            programmer.SpecializationID = SpecializationID;
+            programmer.DepartmentID = DepartmentID;
             var resultTasksList = new List<Task>();
             using (var context = new DbContext())
             {
@@ -47,6 +52,7 @@ namespace ResourceManagementSystem2.Models
                 }
                 programmer.Tasks = resultTasksList;             
                 programmer.Specialization = Specialization?.ToEntity();
+                programmer.Department = Department?.ToEntity();
             }
             return programmer;
         }

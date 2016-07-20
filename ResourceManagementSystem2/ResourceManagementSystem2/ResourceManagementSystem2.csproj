@@ -57,6 +57,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\..\..\Kendo.Mvc.dll</HintPath>
     </Reference>
@@ -140,7 +144,6 @@
     <Content Include="Content\AppScripts\Projects.js" />
     <Content Include="Content\AppScripts\RemoveWIndow.js" />
     <Content Include="Content\AppScripts\Scheduler.js" />
-    <Content Include="Content\AppScripts\WeekendsWindow.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -2080,8 +2083,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\ProgrammersController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
@@ -2089,12 +2094,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DatabaseEntities\Department.cs" />
     <Compile Include="Models\DatabaseEntities\Task.cs" />
     <Compile Include="Models\DatabaseEntities\Weekend.cs" />
+    <Compile Include="Models\Services\DepartmentService.cs" />
     <Compile Include="Models\Services\ProgrammerService.cs" />
     <Compile Include="Models\Exceptions\IncorrectPasswordException.cs" />
     <Compile Include="Models\LoginChecker.cs" />
+    <Compile Include="Models\Services\ReportService.cs" />
     <Compile Include="Models\Services\WeekendService.cs" />
+    <Compile Include="Models\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\DatabaseEntities\Programmer.cs" />
     <Compile Include="Models\DatabaseEntities\Project.cs" />
@@ -2366,9 +2375,11 @@
     <Content Include="Views\Shared\EditorTemplates\ColorPicker.cshtml" />
     <Content Include="Views\Programmers\Index.cshtml" />
     <Content Include="Views\Specializations\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\SpecializationDropDownList.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SpecializationsDropDownList.cshtml" />
     <Content Include="Views\Weekends\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DepartmentsDropDownList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2378,6 +2389,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Interfaces\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
