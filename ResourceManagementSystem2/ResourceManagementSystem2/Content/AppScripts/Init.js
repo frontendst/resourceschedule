@@ -36,7 +36,9 @@ function renderButtons() {
     });
 
     $(".k-scheduler-toolbar").append("<input id='weekendsButton' class='k-button control-but' type='button' value='Выходные' />");
-
+    $('#weekendsButton').bind('click', function () {
+        $("#weekendsWindow").data("kendoWindow").center().open();
+    });
 
 }
 

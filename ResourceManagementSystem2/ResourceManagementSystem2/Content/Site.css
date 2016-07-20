@@ -31,10 +31,10 @@ div[data-container-for="recurrenceRule"] {
     background-color: #6a0045;
 }
 
-#weekendsButton:hover {
-    float: left;
-    background-color: #b40826;
-}
+    #weekendsButton:hover {
+        float: left;
+        background-color: #b40826;
+    }
 
 .customer-photo {
     display: inline-block;
@@ -86,14 +86,6 @@ h4 {
     margin-right: 25%;
 }
 
-/*#add-save-btn,
-#add-cancel-btn,
-#edit-cancel-btn,
-#edit-update-btn {
-    float: left;
-    margin: 5px;
-}*/
-
 .standart-btn {
     min-width: 100px;
 }
@@ -119,3 +111,35 @@ h4 {
 .k-scheduler-times .k-slot-cell {
     height: 40px !important;
 }
+
+.k-nonwork-hour {
+    background: rgba(106, 106, 106, 0.25);
+}
+
+.holiday {
+    background: rgba(253, 186, 186, 0.73) !important;
+}
+
+.k-today {
+    background: rgba(163, 250, 185, 0.65) !important;
+}
+
+#scheduler {
+    border-color: #1c1c1c !important; /*граница вокруг самого шедулера*/
+}
+
+table {
+    border-color: #1c1c1c !important; /* Рамка вокруг таблицы */
+}
+
+th {
+    border-color: #1c1c1c !important; /* Граница вокруг ячеек */
+}
+
+td {
+    border-color: #1c1c1c !important; /* Граница вокруг ячеек */
+}
+
+/*tr[role="row"]:hover{
+    background-color:rgb(79, 0, 255) !important;
+}*/

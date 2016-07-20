@@ -23,7 +23,7 @@ namespace ResourceManagementSystem2.Models
         {
             ProgrammerViewModelID = programmer.ProgrammerID;
             Name = programmer.Name;
-            Tasks = null;// programmer.Tasks.Select(t => t.TaskID);
+            Tasks = null;
             SpecializationID = programmer.SpecializationID;
             Specialization = new SpecializationViewModel(programmer.Specialization);
         }

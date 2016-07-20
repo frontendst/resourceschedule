@@ -42,14 +42,12 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request, int month = 0, int year = 0)
         {
-           // var deb = _taskService.GetAll();
             return Json(_taskService.GetAll(month, year).ToDataSourceResult(request));
         }
 
         public JsonResult GetTaskColors()
         {
-           // var deb = _taskService.GetAll();
-            return Json(_taskService.GetAll(0,0), JsonRequestBehavior.AllowGet);
+            return Json(_taskService.GetAll(0, 0), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Update([DataSourceRequest] DataSourceRequest request, TaskViewModel task)

@@ -1,0 +1,9 @@
+﻿@using ResourceManagementSystem2.Models
+@using Kendo.Mvc.UI
+@model DateTime?
+
+@(Html.Kendo().DatePickerFor(m => m)
+              .HtmlAttributes(new { style = "width: 100%" })
+              .Format("{0:dd.MM.yyyy}")
+              .HtmlAttributes(new { onkeydown = "javascript:return false;" })
+)

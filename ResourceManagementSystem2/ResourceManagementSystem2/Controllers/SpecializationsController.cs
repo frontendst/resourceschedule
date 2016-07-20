@@ -15,7 +15,7 @@ namespace ResourceManagementSystem2.Controllers
 
         public ActionResult Index()
         {
-            return View(_specializationService.GetAll().ToArray());
+            return View();
         }
 
         public JsonResult Create([DataSourceRequest] DataSourceRequest request, SpecializationViewModel specialization)
@@ -42,13 +42,11 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            //var a = _specializationService.GetAll();//дебаг
             return Json(_specializationService.GetAll().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ReadForDropdown()
         {
-           // var a = _specializationService.GetAll();//дебаг
             return Json(_specializationService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 

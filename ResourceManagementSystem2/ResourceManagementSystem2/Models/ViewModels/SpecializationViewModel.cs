@@ -21,7 +21,6 @@ namespace ResourceManagementSystem2.Models
             {
                 SpecializationViewModelID = specialization.SpecializationID;
                 Name = specialization.Name;
-                //Programmers = specialization.Programmers.Select(x => x.ProgrammerID);
             }
         }
 

@@ -21,9 +21,7 @@ namespace ResourceManagementSystem2.Models
         public IQueryable<ProgrammerViewModel> GetAll(int page = 0, int pageSize = 0)
         {
             List<Programmer> programmerList = null;
-            ;
 
-             //запуск
             if (pageSize == 0)
             {
                 programmerList = context.Programmers.ToList();
@@ -32,16 +30,11 @@ namespace ResourceManagementSystem2.Models
             {
                 programmerList = context.Programmers.OrderBy(p=>p.ProgrammerID).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
-            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
-            myStopwatch.Start();
             var programmerViewList = new List<ProgrammerViewModel>();
             foreach (var p in programmerList)
             {
                 programmerViewList.Add(new ProgrammerViewModel(p));
             }
-
-           // var debug = programmerViewList.AsQueryable();
-            myStopwatch.Stop(); //остановить
             return programmerViewList.AsQueryable();
         }
 

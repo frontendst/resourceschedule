@@ -27,7 +27,6 @@ namespace ResourceManagementSystem2.Models
             {
                 specViewList.Add(new SpecializationViewModel(p));
             }
-            //var debug = specViewList.AsQueryable();
             return specViewList.AsQueryable();
         }
 

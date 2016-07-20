@@ -37,16 +37,6 @@ namespace ResourceManagementSystem2.Controllers
 
         public ActionResult Index()
         {
-
-            //var programmers = _programmerService.GetProgramerEntities();
-            //foreach (var p in programmers)
-            //{
-            //    p.Specialization = null;
-
-            //    p.Tasks = null;
-
-            //}
-            // return View(programmers.ToArray());
             return View();
         }
 
@@ -57,7 +47,6 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult GetProjectColors()
         {
-            //var deb = _projectsService.GetAll();
             return Json(_projectsService.GetAll(), JsonRequestBehavior.AllowGet);
         }
 

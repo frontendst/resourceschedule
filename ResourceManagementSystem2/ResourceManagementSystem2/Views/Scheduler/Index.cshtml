@@ -66,17 +66,8 @@
 
     })
     .Create("Create", "Tasks")
-    .Destroy("Destroy", "Tasks")
+    .Destroy("Destroy", "Tasks")//??????
     .Update("Update", "Tasks")
-    //.Events(e => e.Sync("preventdef"))
-
-    //.Events(e => e.Change("refreshScheduler"))
-    //.Events(e => e.Change("preventdef"))
-    //.Events(e => e.RequestStart("refreshScheduler"))
-    //.Events(e => e.RequestEnd("refreshScheduler"))
-    //.Events(e => e.RequestStart("preventdef"))
-    //.Events(e => e.RequestEnd("preventdef"))
-    //.Events(e => e.Sync("refreshScheduler"))
     )
 )
 
@@ -84,6 +75,7 @@
     Html.RenderAction("Index", "Projects");
     Html.RenderAction("Index", "Programmers");
     Html.RenderAction("Index", "Specializations");
+    Html.RenderAction("Index", "Weekends");
 }
 
 

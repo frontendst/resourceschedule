@@ -2085,13 +2085,16 @@
     <Compile Include="Controllers\SchedulerController.cs" />
     <Compile Include="Controllers\SpecializationsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\WeekendsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DatabaseEntities\Task.cs" />
+    <Compile Include="Models\DatabaseEntities\Weekend.cs" />
     <Compile Include="Models\Services\ProgrammerService.cs" />
     <Compile Include="Models\Exceptions\IncorrectPasswordException.cs" />
     <Compile Include="Models\LoginChecker.cs" />
+    <Compile Include="Models\Services\WeekendService.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\DatabaseEntities\Programmer.cs" />
     <Compile Include="Models\DatabaseEntities\Project.cs" />
@@ -2105,6 +2108,7 @@
     <Compile Include="Models\ViewModels\SpecializationViewModel.cs" />
     <Compile Include="Models\Services\TaskService.cs" />
     <Compile Include="Models\ViewModels\TaskViewModel.cs" />
+    <Compile Include="Models\ViewModels\WeekendViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2363,6 +2367,8 @@
     <Content Include="Views\Programmers\Index.cshtml" />
     <Content Include="Views\Specializations\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SpecializationDropDownList.cshtml" />
+    <Content Include="Views\Weekends\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
