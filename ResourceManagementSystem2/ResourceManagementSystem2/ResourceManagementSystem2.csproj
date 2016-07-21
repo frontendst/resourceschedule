@@ -140,7 +140,9 @@
     </Content>
     <Content Include="Content\AppScripts\AddWindow.js" />
     <Content Include="Content\AppScripts\ColorService.js" />
+    <Content Include="Content\AppScripts\CtrlCopy.js" />
     <Content Include="Content\AppScripts\EditWindow.js" />
+    <Content Include="Content\AppScripts\GridRefreshers.js" />
     <Content Include="Content\AppScripts\Projects.js" />
     <Content Include="Content\AppScripts\RemoveWIndow.js" />
     <Content Include="Content\AppScripts\Scheduler.js" />

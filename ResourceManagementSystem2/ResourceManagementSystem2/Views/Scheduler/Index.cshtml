@@ -27,6 +27,7 @@
     .Events(e => e.Add("onTaskAdd"))
     .Events(e => e.Remove("onTaskRemove"))
     .Events(e => e.DataBound("handleEditEvent"))
+    .Events(e => e.MoveEnd("onTaskCopy"))
     .Date(DateTime.Now)
     .StartTime(DateTime.Now)
     .Views(views =>
@@ -65,10 +66,12 @@
         rd.Action("Read", "Tasks").Data("getMonthAndYear");
 
     })
-    //.Create("Create", "Tasks")
-    //.Destroy("Destroy", "Tasks")
     .Update("Update", "Tasks")
+    .Events(e => e.RequestEnd("onRequestEnd"))
+    .Events(e => e.RequestStart("onRequestStart"))
     )
+    .Events(e => e.ResizeEnd("onRequestEnd"))
+    .Events(e => e.ResizeStart("onRequestStart"))
 )
 
 @{

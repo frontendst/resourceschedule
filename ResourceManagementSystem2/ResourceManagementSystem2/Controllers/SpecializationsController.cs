@@ -35,9 +35,9 @@ namespace ResourceManagementSystem2.Controllers
             {
                 success = _specializationService.Delete(specialization);
             }
-            var debug = new[] { specialization }.ToDataSourceResult(request, ModelState);
-            debug.Errors = !success;
-            return Json(debug);
+            var result = new[] { specialization }.ToDataSourceResult(request, ModelState);
+            result.Errors = !success;
+            return Json(result);
         }
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request)

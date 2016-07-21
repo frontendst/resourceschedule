@@ -1,19 +1,14 @@
 ﻿@using ResourceManagementSystem2.Models
 @model SpecializationViewModel[]
-<script>
-    function cancelGridChanges() {
 
-        $('#specializationGrid').data("kendoGrid").cancelChanges();
-    }
-</script>
 @{Html.Kendo().Window()
       .Name("specializationsWindow")
       .Title("Specializations Manager")
       .Content(
 
-    #region specializationGrid
+    #region specializationsGrid
         Html.Kendo().Grid(Model)
-              .Name("specializationGrid")
+              .Name("specializationsGrid")
               .Events(e => {
                   e.Edit("setTextBoxStyle");
               })
@@ -41,8 +36,7 @@
                   .Create("Create", "Specializations")
                   .Destroy(d => d.Action("Destroy", "Specializations"))
                   .Update("Update", "Specializations")
-                  .Events(ev => ev.Error("cancelGridChanges"))
-                ///.Events(e => e.Error("onError"))
+                  .Events(ev => ev.Error("cancelSpecGridChanges"))
                 )
           .ToHtmlString()
     #endregion
@@ -52,7 +46,6 @@
       .Resizable()
       .Width(1200)
       .Actions(actions => actions.Pin().Minimize().Maximize().Close())
-      //.Events(ev => ev.Close("onClose"))
      
       .Visible(false)
       .Render();

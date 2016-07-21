@@ -9,7 +9,6 @@ function submitLogout() {
     javascript: document.getElementById('logoutForm').submit();
 }
 
-
 function renderButtons() {
     console.log("renderButtons() starts");
 
@@ -30,6 +29,11 @@ function renderButtons() {
         $("#specializationsWindow").data("kendoWindow").center().open();
     });
 
+    $(".k-scheduler-toolbar").append("<input id='departmentsButton' class='k-button control-but' type='button' value='Отделы' />");
+    $('#departmentsButton').bind('click', function () {
+        $("#departmentsWindow").data("kendoWindow").center().open();
+    });
+
     $(".k-scheduler-toolbar").append("<input id='filteringButton' class='k-button control-but' type='button' value='Фильтрация' />");
     $('#filteringButton').bind('click', function () {
         $("#filterwindow").data("kendoWindow").center().open();
@@ -39,13 +43,5 @@ function renderButtons() {
     $('#weekendsButton').bind('click', function () {
         $("#weekendsWindow").data("kendoWindow").center().open();
     });
-
-    $(".k-scheduler-toolbar").append("<input id='departmentsButton' class='k-button control-but' type='button' value='Отделы' />");
-    $('#departmentsButton').bind('click', function () {
-        $("#departmentsWindow").data("kendoWindow").center().open();
-    });
-
-
-
 }
 

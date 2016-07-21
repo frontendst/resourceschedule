@@ -52,7 +52,7 @@ namespace ResourceManagementSystem2.Models
                list = from tasks in context.Tasks
                           join projects in context.Projects on tasks.ProjectID equals projects.ProjectID
                           join programmers in context.Programmers on tasks.ProgrammerID equals programmers.ProgrammerID
-                          where ((tasks.StartTime.Month <= month) && (tasks.StartTime.Month >= month) && (tasks.StartTime.Year == tasks.EndTime.Year))
+                          where ((tasks.StartTime.Month <= month) && (tasks.EndTime.Month >= month) && (tasks.StartTime.Year == tasks.EndTime.Year))
                           select new TaskViewModel()
                           {
                                 Color = projects.Color,
