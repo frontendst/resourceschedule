@@ -28,14 +28,22 @@ namespace ResourceManagementSystem2.Models
             }
             else
             {
-                programmerList = context.Programmers.OrderBy(p=>p.ProgrammerID).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                programmerList = context.Programmers.OrderBy(p => p.ProgrammerID).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
             var programmerViewList = new List<ProgrammerViewModel>();
             foreach (var p in programmerList)
             {
                 programmerViewList.Add(new ProgrammerViewModel(p));
             }
+            var d = programmerViewList;
             return programmerViewList.AsQueryable();
+        }
+
+        public IQueryable<ProgrammerViewModel> ExcludeDeleted(IQueryable<ProgrammerViewModel> programmers, DateTime? date)
+        {
+            if (date == null)
+                date = DateTime.Now;
+            return programmers.Where(p => p.DeleteDate == null || p.DeleteDate.Value.Month >= date.Value.Month).AsQueryable();
         }
 
         public int Count()
@@ -62,7 +70,14 @@ namespace ResourceManagementSystem2.Models
 
         public void Delete(ProgrammerViewModel programmer)
         {
-            context.Programmers.Remove(context.Programmers.Find(programmer.ProgrammerViewModelID));
+            if (programmer.Tasks.Count() == 0)
+            {
+                context.Programmers.Remove(context.Programmers.Find(programmer.ProgrammerViewModelID));
+            }
+            else
+            {
+                context.Programmers.Find(programmer.ProgrammerViewModelID).DeleteDate = DateTime.Now;
+            }
             context.SaveChanges();
         }
 

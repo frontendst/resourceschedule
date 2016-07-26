@@ -19,6 +19,8 @@ namespace ResourceManagementSystem2.Models
 
         public string Name { get; set; }
 
+        public DateTime? DeleteDate { get; set; }
+
         public int? SpecializationID { get; set; }
         public virtual Specialization Specialization { get; set; }
 

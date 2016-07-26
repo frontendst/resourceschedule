@@ -145,6 +145,7 @@
     <Content Include="Content\AppScripts\GridRefreshers.js" />
     <Content Include="Content\AppScripts\Projects.js" />
     <Content Include="Content\AppScripts\RemoveWIndow.js" />
+    <Content Include="Content\AppScripts\ReportService.js" />
     <Content Include="Content\AppScripts\Scheduler.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -923,6 +924,7 @@
     <Content Include="Content\kendo\images\kendoui.woff" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\Rms2 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

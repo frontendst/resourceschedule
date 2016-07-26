@@ -50,7 +50,8 @@
         .Name("ProgrammerID")
         .DataTextField("Name")
         .DataValueField("ProgrammerViewModelID")
-        .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
+        //.DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
+        .DataSource(ds => ds.Read(a => a.Action("ReadForScheduler", "Programmers").Data("getMonthAndYear"))
         );
     })
 

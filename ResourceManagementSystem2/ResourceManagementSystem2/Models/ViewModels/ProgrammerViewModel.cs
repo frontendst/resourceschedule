@@ -13,6 +13,8 @@ namespace ResourceManagementSystem2.Models
 
         public string Name { get; set; }
 
+        public DateTime? DeleteDate { get; set; }
+
         public IEnumerable<int> Tasks { get; set; }
 
         public int? SpecializationID { get; set; }
@@ -30,6 +32,7 @@ namespace ResourceManagementSystem2.Models
             Specialization = new SpecializationViewModel(programmer.Specialization);
             DepartmentID = programmer.DepartmentID;
             Department = new DepartmentViewModel(programmer.Department);
+            DeleteDate = programmer.DeleteDate;
         }
 
         public Programmer ToEntity()
@@ -54,6 +57,7 @@ namespace ResourceManagementSystem2.Models
                 programmer.Specialization = Specialization?.ToEntity();
                 programmer.Department = Department?.ToEntity();
             }
+            programmer.DeleteDate = this.DeleteDate;
             return programmer;
         }
     }

@@ -31,10 +31,18 @@ div[data-container-for="recurrenceRule"] {
     background-color: #6a0045;
 }
 
-    #weekendsButton:hover {
-        float: left;
-        background-color: #b40826;
-    }
+#reportButton{
+    float: left;
+    background-color: #004e0e;
+}
+
+#reportButton:hover{
+    background-color: #009f1d;
+}
+
+#weekendsButton:hover {
+    background-color: #b40826;
+}
 
 .customer-photo {
     display: inline-block;

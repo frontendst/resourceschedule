@@ -43,5 +43,7 @@ function renderButtons() {
     $('#weekendsButton').bind('click', function () {
         $("#weekendsWindow").data("kendoWindow").center().open();
     });
+
+    $(".k-scheduler-toolbar").append("<button id='reportButton' class='k-button control-but' onclick='submitReport()'>Репорт</button>");
 }
 

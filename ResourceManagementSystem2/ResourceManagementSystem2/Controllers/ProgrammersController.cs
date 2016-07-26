@@ -48,9 +48,15 @@ namespace ResourceManagementSystem2.Controllers
             return Json(dataSourceResult);
         }
 
-        public JsonResult ReadForScheduler()
+        public JsonResult ReadForScheduler(int? year, int? month)
         {
-            return Json(_programmerService.GetAll(), JsonRequestBehavior.AllowGet);
+            if(year == null || month == null)
+            {
+                year = DateTime.Now.Year;
+                month = DateTime.Now.Month;
+            }
+            var d = _programmerService.ExcludeDeleted(_programmerService.GetAll(), new DateTime(year.Value, month.Value, 1));
+            return Json(_programmerService.ExcludeDeleted(_programmerService.GetAll(), new DateTime(year.Value, month.Value, 1)), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Update(ProgrammerViewModel programmer)
