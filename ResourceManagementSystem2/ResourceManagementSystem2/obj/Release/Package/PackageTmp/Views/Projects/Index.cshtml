@@ -1,0 +1,54 @@
+﻿@using ResourceManagementSystem2.Models
+@model ProjectViewModel[]
+@{Html.Kendo().Window()
+        .Name("projectsWindow")
+        .Title("Projects Manager")
+        .Content(
+
+#region projectsGrid
+        Html.Kendo().Grid(Model)
+            .Name("projectsGrid")
+            .Events(e => { 
+              e.Edit("setTextBoxStyle");
+          })
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.Title).Title("Название").Width(200);
+                columns.Bound(p => p.Description).Title("Описание").Width(300);
+                columns.Bound(p => p.Color).Title("Цвет")
+                  .ClientTemplate("<span id='background" + "' style='display: inline-block; width: 100%; height: 100%; background-color: #=Color#'></span>")
+                  .EditorTemplateName("ColorPicker").Width(50);
+                columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            })
+              .ToolBar(commands => commands.Create())
+              .Editable(editable => editable.Mode(GridEditMode.InLine))
+              .HtmlAttributes(new { style = "height: 550px;" })
+              .Pageable(pageable => pageable
+              .Input(true)
+              .Numeric(false)
+              )
+              .Sortable()
+              .Scrollable(scr => scr.Height(430))
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Model(model => {
+                      model.Id(p => p.ProjectViewModelID);
+                      model.Field(p => p.Color).DefaultValue("#ffffff");
+                  })
+                  .Read("ReadProjects", "Scheduler")
+                  .Create("CreateProject", "Scheduler")
+                  .Destroy("DestroyProject", "Scheduler")
+                  .Update("UpdateProject", "Scheduler")
+                    .Events(e => e.Sync("onSyncProjectsColors"))
+                  )
+              .ToHtmlString()
+#endregion
+
+          )
+          .Draggable()
+          .Resizable()
+          .Width(1200)
+          .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+          .Visible(false)
+          .Render();
+    }

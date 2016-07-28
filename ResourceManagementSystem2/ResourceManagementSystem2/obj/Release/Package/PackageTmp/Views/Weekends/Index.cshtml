@@ -1,0 +1,55 @@
+﻿@using ResourceManagementSystem2.Models
+@model WeekendViewModel[]
+@{Html.Kendo().Window()
+        .Name("weekendsWindow")
+        .Title("Weekend Manager")
+        .Events(e =>
+        {
+            e.Close("onClose");
+        })
+        .Content(
+
+    #region projectsGrid
+        Html.Kendo().Grid(Model)
+        .Name("weekendsGrid")
+        .Events(e => {
+            e.Edit("setTextBoxStyle");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.Date).Title("Название").Width(200)
+            .EditorTemplateName("DatePicker").Format("{0:dd.MM.yyyy}");
+            columns.Bound(p => p.Description).Title("Описание").Width(300);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+        })
+            .ToolBar(commands => commands.Create())
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .HtmlAttributes(new { style = "height: 550px;" })
+            .Pageable(pageable => pageable
+            .Input(true)
+            .Numeric(false)
+            )
+            .Sortable()
+            .Scrollable(scr => scr.Height(430))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Model(model => {
+                    model.Id(w => w.WeekendViewModelID);
+                    model.Field(w => w.Date);
+                })
+                .Read("Read", "Weekends")
+                .Create("Create", "Weekends")
+                .Destroy("Destroy", "Weekends")
+                .Update("Update", "Weekends")
+                )
+                  .ToHtmlString()
+    #endregion
+
+        )
+        .Draggable()
+        .Resizable()
+        .Width(1200)
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+        .Visible(false)
+        .Render();
+    }

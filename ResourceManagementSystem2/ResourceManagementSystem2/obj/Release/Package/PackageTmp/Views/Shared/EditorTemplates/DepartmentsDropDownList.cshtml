@@ -1,0 +1,12 @@
+﻿@using ResourceManagementSystem2.Models
+@using Kendo.Mvc.UI
+@model DepartmentViewModel
+
+
+@(Html.Kendo().DropDownListFor(m => m)
+          .DataTextField("Name")
+          .DataValueField(" DepartmentViewModelID")
+          .DataSource(ds => ds.Read("ReadForDropdown", "Departments"))
+          .OptionLabel("Выберите из списка...")
+          .HtmlAttributes(new { required = "required" })
+)

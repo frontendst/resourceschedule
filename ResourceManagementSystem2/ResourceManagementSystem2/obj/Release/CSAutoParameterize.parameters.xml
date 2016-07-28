@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="RmsConnection-Web.config Connection String" description="RmsConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=RmsDb; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|RmsDb.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\SummerPractice\\Repository\\resourceschedule\\ResourceManagementSystem2\\ResourceManagementSystem2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='RmsConnection']/@connectionString" />
+  </parameter>
+  <parameter name="Rms2Connection-Web.config Connection String" description="Rms2Connection Connection String used in web.config by the application to access the database." defaultValue="Data Source=STWS2398\SQLEXPRESS;Initial Catalog=RmsDb;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\SummerPractice\\Repository\\resourceschedule\\ResourceManagementSystem2\\ResourceManagementSystem2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Rms2Connection']/@connectionString" />
+  </parameter>
+  <parameter name="RmsTestConnection-Web.config Connection String" description="RmsTestConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=STWS2398\SQLEXPRESS;Initial Catalog=RmsDbTestTasks;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\SummerPractice\\Repository\\resourceschedule\\ResourceManagementSystem2\\ResourceManagementSystem2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='RmsTestConnection']/@connectionString" />
+  </parameter>
+  <parameter name="RmsRealDataConnection-Web.config Connection String" description="RmsRealDataConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=RmsRealData; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|RmsRealData.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\SummerPractice\\Repository\\resourceschedule\\ResourceManagementSystem2\\ResourceManagementSystem2\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='RmsRealDataConnection']/@connectionString" />
+  </parameter>
+</parameters>

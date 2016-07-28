@@ -1,0 +1,57 @@
+﻿@using ResourceManagementSystem2.Models
+@model ProgrammerViewModel[]
+@{Html.Kendo().Window()
+        .Name("programmersWindow")
+        .Title("Programmers Manager")
+        .Events(e => e.Close("onClose"))
+        .Content(
+
+    #region programmersGrid
+          Html.Kendo().Grid(Model)
+            .Name("programmersGrid")
+            .Events(e => {
+                e.Edit("setTextBoxStyle");
+            })
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.Name).Title("Имя").Width(100);
+                columns.Bound(p => p.Specialization).ClientTemplate("#= Specialization.Name #")
+                    .EditorTemplateName("SpecializationsDropDownList").Width(100);
+                columns.Bound(p => p.Department).ClientTemplate("#= Department.Name #")
+                    .EditorTemplateName("DepartmentsDropDownList").Width(100);
+                columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            })
+            .ToolBar(commands => commands.Create())
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .HtmlAttributes(new { style = "height: 550px;" })
+            .Pageable(pageable => pageable
+            .Input(true)
+            .Numeric(false)
+            )
+
+            .Sortable()
+            .Scrollable(scr => scr.Height(430))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Model(model =>
+                {
+                    model.Id(p => p.ProgrammerViewModelID);
+                    model.Field(p => p.Specialization).DefaultValue(new SpecializationViewModel { Name = "" });
+                    model.Field(p => p.Department).DefaultValue(new DepartmentViewModel { Name = "" });
+                })
+                .Read("Read", "Programmers")
+                .Create("Create", "Programmers")
+                .Destroy("Destroy", "Programmers")
+                .Update("Update", "Programmers")   
+
+             ).ToHtmlString()
+    #endregion
+
+          )
+          .Draggable()
+          .Resizable()
+          .Width(1200)
+          .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+          .Visible(false)
+          .Render();
+    }

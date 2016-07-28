@@ -1,0 +1,126 @@
+﻿@using ResourceManagementSystem2.Models
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Resource Management System";
+}
+
+
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+@{
+    var taskTemplate = @"
+        <div class='task-template' style='background-color:#=Color#;'>
+            <p>
+               <div class='text-block'> #:title# (#=Charge*100#%) </div>
+            </p>
+        </div>";
+}
+
+@(Html.Kendo().Scheduler<TaskViewModel>()
+    .Name("scheduler")
+    .Editable(e => e.TemplateId("editor"))
+    .EventTemplate(taskTemplate)
+    .Events(e => e.Navigate("onNavigate"))
+    .Events(e => e.Add("onTaskAdd"))
+    .Events(e => e.Remove("onTaskRemove"))
+    .Events(e => e.DataBound("handleEditEvent"))
+    .Events(e => e.MoveEnd("onTaskCopy"))
+    .Date(DateTime.Now)
+    .StartTime(DateTime.Now)
+    .Views(views =>
+    {
+        views.TimelineMonthView(timeline =>
+        {
+            timeline.StartTime(DateTime.MinValue);
+            timeline.EndTime(DateTime.MaxValue);
+            timeline.EventHeight(20);
+            timeline.ColumnWidth(15);
+            timeline.DateHeaderTemplate("<strong>#=kendo.toString(date, 'dd')#</strong>");
+        });
+
+    })
+    .Group(group => group.Resources("ProgrammerID").Orientation(SchedulerGroupOrientation.Vertical))
+    .Resources(resource =>
+    {
+        resource.Add(m => m.ProgrammerID)
+        .Title("ProgrammerID")
+        .Name("ProgrammerID")
+        .DataTextField("Name")
+        .DataValueField("ProgrammerViewModelID")
+        .DataSource(ds => ds.Read("ReadForScheduler", "Programmers")
+        );
+    })
+
+    .DataSource(d => d
+    .ServerOperation(false)
+    .Model(m =>
+    {
+        m.Id(f => f.TaskViewModelID);
+        m.Field(f => f.Title).DefaultValue("No title");
+    })
+    .Read(rd =>
+    {
+        rd.Action("Read", "Tasks").Data("getMonthAndYear");
+
+    })
+    .Update("Update", "Tasks")
+    .Events(e => e.RequestEnd("onRequestEnd"))
+    .Events(e => e.RequestStart("onRequestStart"))
+    )
+    .Events(e => e.ResizeEnd("onRequestEnd"))
+    .Events(e => e.ResizeStart("onRequestStart"))
+)
+
+@{
+    Html.RenderAction("Index", "Projects");
+    Html.RenderAction("Index", "Programmers");
+    Html.RenderAction("Index", "Specializations");
+    Html.RenderAction("Index", "Weekends");
+    Html.RenderAction("Index", "Departments");
+}
+
+
+
+<script id="editor" type="text/x-kendo-template">
+    <h4>SetUp Your Task</h4>
+    <div class="edit-form">
+        <div data-container-for="start" class="k-edit-field">
+            <label>Start: <input data-role="datepicker" name="start" /></label>
+        </div>
+        <div data-container-for="end" class="k-edit-field">
+            <label> End:&nbsp;&nbsp;<input data-role="datepicker" name="end" /></label>
+        </div>
+        <div data-container-for="proj" class="k-edit-field">
+            <label>
+                Project :
+                <select id="proj-dropdown" name="proj" data-role="dropdownlist" data-bind="value:ProjectID"
+                        data-value-field="ProjectViewModelID" data-source="{transport: {read: {url : '/Scheduler/GetProjectColors'}}}" data-text-field="Title">
+                    <option value="" disabled selected>Select your option</option>
+                </select>
+            </label>
+        </div>
+        <div data-container-for="programmers" class="k-edit-field">
+            <label>
+                Programmer :
+                <select data-bind="value:ProgrammerID" name="programmers" disabled data-text-field="Name" data-role="dropdownlist" style="display: none;"
+                        data-value-field="ProgrammerViewModelID" data-source="{transport: {read: {url : '/Programmers/ReadForScheduler'}}}"></select>
+            </label>
+        </div>
+    </div>
+</script>
+
+
+
+<script>
+    $(function () {
+        renderButtons();
+        renderFilteringWindow();
+        renderAddPopUp();
+        renderEditPopUp();
+        renderRemovePopUp();
+    });
+
+</script>

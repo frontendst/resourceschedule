@@ -6,5 +6,5 @@
               .HtmlAttributes(new { style = "width: 100%" })
               .Format("{0:dd.MM.yyyy}")
               .HtmlAttributes(new { onkeydown = "javascript:return false;" })
-
+              .DisableDates(DayOfWeek.Saturday, DayOfWeek.Sunday)
 )
