@@ -148,6 +148,10 @@ td {
     border-color: #1c1c1c !important; /* Граница вокруг ячеек */
 }
 
+.closed {
+    background-color: rgba(250, 0, 0, 0.60);
+}
+
 /*tr[role="row"]:hover{
     background-color:rgb(79, 0, 255) !important;
 }*/

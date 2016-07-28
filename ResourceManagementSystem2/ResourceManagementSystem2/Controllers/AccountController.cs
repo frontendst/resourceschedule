@@ -48,7 +48,6 @@ namespace ResourceManagementSystem.Controllers
 
         [Authorize]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             if (Request.IsAuthenticated)

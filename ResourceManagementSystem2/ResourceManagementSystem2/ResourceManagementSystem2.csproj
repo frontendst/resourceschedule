@@ -130,10 +130,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\RmsDb.mdf" />
-    <Content Include="App_Data\RmsDb_log.ldf">
-      <DependentUpon>RmsDb.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\RmsRealData.mdf" />
     <Content Include="App_Data\RmsRealData_log.ldf">
       <DependentUpon>RmsRealData.mdf</DependentUpon>
@@ -152,15 +148,6 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\AppScripts\Filters.js" />
-    <Content Include="Content\jquery-scrollto\demo\index.html" />
-    <Content Include="Content\jquery-scrollto\index.html" />
-    <Content Include="Content\jquery-scrollto\lib\jquery-scrollto.js" />
-    <Content Include="Content\jquery-scrollto\styles\generic.css" />
-    <Content Include="Content\jquery-scrollto\styles\style.css" />
-    <Content Include="Content\jquery-scrollto\vendor\highlight.css" />
-    <Content Include="Content\jquery-scrollto\vendor\jquery.js" />
-    <Content Include="Content\jquery-scrollto\vendor\modernizr.js" />
-    <Content Include="Content\jquery-scrollto\vendor\yui-cssreset.css" />
     <Content Include="Content\kendo\2015.2.902\Black\editor.png" />
     <Content Include="Content\kendo\2015.2.902\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2015.2.902\Black\indeterminate.gif" />

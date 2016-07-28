@@ -39,11 +39,14 @@ namespace ResourceManagementSystem2.Models
             return programmerViewList.AsQueryable();
         }
 
-        public IQueryable<ProgrammerViewModel> ExcludeDeleted(IQueryable<ProgrammerViewModel> programmers, DateTime? date)
+        public IQueryable<ProgrammerViewModel> ExcludeClosed(IQueryable<ProgrammerViewModel> programmers, DateTime? date)
         {
             if (date == null)
+            {
                 date = DateTime.Now;
-            return programmers.Where(p => p.DeleteDate == null || p.DeleteDate.Value.Month >= date.Value.Month).AsQueryable();
+            }
+            return programmers.Where(p => ((p.DeleteDate == null || (p.DeleteDate.Value.Year > date.Value.Year || ((p.DeleteDate.Value.Year == date.Value.Year) && (p.DeleteDate.Value.Month >= date.Value.Month)))) &&
+            (p.CreateDate.Value.Year < date.Value.Year || (p.CreateDate.Value.Year == date.Value.Year && p.CreateDate.Value.Month <= date.Value.Month)))).AsQueryable();
         }
 
         public int Count()
@@ -63,21 +66,22 @@ namespace ResourceManagementSystem2.Models
             programmerEntity.Specialization = null;
             programmerEntity.DepartmentID = programmerEntity.Department.DepartmentID;
             programmerEntity.Department = null;
+            programmerEntity.CreateDate = DateTime.Now;
             programmerEntity = context.Programmers.Add(programmerEntity);
             context.SaveChanges();
             programmer.ProgrammerViewModelID = programmerEntity.ProgrammerID;
+
         }
 
         public void Delete(ProgrammerViewModel programmer)
         {
-            if (programmer.Tasks.Count() == 0)
-            {
-                context.Programmers.Remove(context.Programmers.Find(programmer.ProgrammerViewModelID));
-            }
-            else
-            {
-                context.Programmers.Find(programmer.ProgrammerViewModelID).DeleteDate = DateTime.Now;
-            }
+            context.Programmers.Remove(context.Programmers.Find(programmer.ProgrammerViewModelID));
+            context.SaveChanges();
+        }
+
+        public void Close(ProgrammerViewModel programmer)
+        {
+            context.Programmers.Find(programmer.ProgrammerViewModelID).DeleteDate = DateTime.Now;
             context.SaveChanges();
         }
 

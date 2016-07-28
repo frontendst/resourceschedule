@@ -14,7 +14,7 @@ namespace ResourceManagementSystem2.Models
         public static bool IsAllowedUser(string username, string password)
         {
             return true;
-            //заглушка
+            //з-заглушка
             const string ldapPath = "LDAP://local.st.by/DC=local,DC=st,DC=by";
 
             var entry = new DirectoryEntry(ldapPath, @"ST_DOMAIN\" + username, password);

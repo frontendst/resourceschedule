@@ -36,8 +36,7 @@ namespace ResourceManagementSystem2.Controllers
 
         public ActionResult Index()
         {
-            var programmers = _programmerService.GetProgramerEntities();
-            return View(programmers);
+            return View(_programmerService.GetProgramerEntities());
         }
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request, int month = 0, int year = 0)

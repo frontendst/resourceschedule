@@ -13,6 +13,7 @@ namespace ResourceManagementSystem2.Models
 
         public string Name { get; set; }
 
+        public DateTime? CreateDate { get; set; }
         public DateTime? DeleteDate { get; set; }
 
         public IEnumerable<int> Tasks { get; set; }
@@ -33,6 +34,7 @@ namespace ResourceManagementSystem2.Models
             DepartmentID = programmer.DepartmentID;
             Department = new DepartmentViewModel(programmer.Department);
             DeleteDate = programmer.DeleteDate;
+            CreateDate = programmer.CreateDate;
         }
 
         public Programmer ToEntity()
@@ -58,6 +60,7 @@ namespace ResourceManagementSystem2.Models
                 programmer.Department = Department?.ToEntity();
             }
             programmer.DeleteDate = this.DeleteDate;
+            programmer.CreateDate = this.CreateDate;
             return programmer;
         }
     }

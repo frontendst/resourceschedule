@@ -25,7 +25,6 @@ namespace ResourceManagementSystem2.Controllers
             {
                 _programmerService.Insert(programmer);
             }
-
             return Json(new[] { programmer }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
         }
 
@@ -35,7 +34,17 @@ namespace ResourceManagementSystem2.Controllers
             {
                 _programmerService.Delete(programmer);
             }
+            return Json(new[] { programmer }.ToDataSourceResult(request, ModelState));
+        }
 
+        public JsonResult Close([DataSourceRequest] DataSourceRequest request, ProgrammerViewModel programmer)
+        {
+            if (ModelState.IsValid)
+            {
+                _programmerService.Close(programmer);
+                programmer.DeleteDate = DateTime.Now;
+            }
+            
             return Json(new[] { programmer }.ToDataSourceResult(request, ModelState));
         }
 
@@ -55,8 +64,8 @@ namespace ResourceManagementSystem2.Controllers
                 year = DateTime.Now.Year;
                 month = DateTime.Now.Month;
             }
-            var d = _programmerService.ExcludeDeleted(_programmerService.GetAll(), new DateTime(year.Value, month.Value, 1));
-            return Json(_programmerService.ExcludeDeleted(_programmerService.GetAll(), new DateTime(year.Value, month.Value, 1)), JsonRequestBehavior.AllowGet);
+            var d = _programmerService.ExcludeClosed(_programmerService.GetAll(), new DateTime(year.Value, month.Value, 1));
+            return Json(_programmerService.ExcludeClosed(_programmerService.GetAll(), new DateTime(year.Value, month.Value, 1)), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Update(ProgrammerViewModel programmer)

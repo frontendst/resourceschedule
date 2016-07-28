@@ -5,6 +5,10 @@
     $('#Description').addClass("k-textbox");
 }
 
+function disableWeekends() {
+    //$('#Date').data('kendoDatePicker')
+}
+
 function submitLogout() {
     javascript: document.getElementById('logoutForm').submit();
 }
