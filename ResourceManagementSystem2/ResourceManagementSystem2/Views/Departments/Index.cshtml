@@ -1,0 +1,52 @@
+﻿@using ResourceManagementSystem2.Models
+@model DepartmentViewModel[]
+@{Html.Kendo().Window()
+    .Name("departmentsWindow")
+    .Title("Departments Manager")
+    .Content(
+
+    #region departmentsGrid
+        Html.Kendo().Grid(Model)
+        .Name("departmentsGrid")
+        .Events(e =>
+        {
+            e.Edit("setTextBoxStyle");
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.Name).Title("Имя").Width(200);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+        })
+        .ToolBar(commands => commands.Create())
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Pageable(pageable => pageable
+        .Input(true)
+        .Numeric(false)
+        )
+        .Sortable()
+        .Scrollable(scr => scr.Height(430))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model =>
+            {
+                model.Id(p => p.DepartmentViewModelID);
+            })
+            .Read("Read", "Departments")
+            .Create("Create", "Departments")
+            .Destroy(d => d.Action("Destroy", "Departments"))
+            .Update("Update", "Departments")
+            .Events(e => e.Error("cancelDepGrid"))
+            )
+                    .ToHtmlString()
+    #endregion
+
+        )
+        .Draggable()
+        .Resizable()
+        .Width(1200)
+        .Actions(actions => actions.Pin().Minimize().Maximize().Close())
+        //.Events(ev => ev.Close("onClose"))
+        .Visible(false)
+        .Render();
+}
