@@ -14,6 +14,7 @@
         .Name("weekendsGrid")
         .Events(e => {
             e.Edit("setTextBoxStyle");
+            //e.DataBound("refreshWeekends");
         })
         .Columns(columns =>
         {
@@ -35,12 +36,13 @@
                 .Ajax()
                 .Model(model => {
                     model.Id(w => w.WeekendViewModelID);
-                    model.Field(w => w.Date);
+                    //model.Field(w => w.Date);
                 })
                 .Read("Read", "Weekends")
                 .Create("Create", "Weekends")
                 .Destroy("Destroy", "Weekends")
                 .Update("Update", "Weekends")
+                .Events(ev => ev.Error("cancelWeekendsGridChanges"))
                 )
                   .ToHtmlString()
     #endregion

@@ -8,6 +8,17 @@ function cancelDepGrid() {
     alert("Чтобы удалить отдел, сначала удалите всех входящих в него программистов!");
 }
 
+function cancelWeekendsGridChanges() {
+    $('#weekendsGrid').data("kendoGrid").cancelChanges();
+    alert("В этот день уже и так праздник!");
+}
+
+function refreshWeekends() {
+    console.log("refreshWeekends() starts!");
+    $('#weekendsGrid').data("kendoGrid").dataSource.read();
+    $('#weekendsGrid').data("kendoGrid").refresh();
+}
+
 function closeProgrammer(e) {
     e.preventDefault();
     var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
@@ -42,7 +53,7 @@ function drawClosedProgrammers(e) {
 
         if (dataItem.get("DeleteDate") != null) {
             row.addClass("closed");
-            row.find(".k-grid-Close").remove();
+            row.find(".k-grid-Уволить").remove(); // :D
         }
     }
 }

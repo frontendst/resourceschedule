@@ -30,15 +30,20 @@ namespace ResourceManagementSystem2.Models
             return weekendViewModelList.AsQueryable();
         }
 
-        internal void Insert(object specialization)
+        public bool Insert(WeekendViewModel weekend)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(WeekendViewModel weekend)
-        {
-            context.Weekends.Add(weekend.ToEntity());
+            var weekendDates = context.Weekends.Select(d => d.Date);
+            foreach(var date in weekendDates)
+            {
+                if(weekend.Date == date)
+                {
+                    return false;
+                }
+            }
+            var weekendEntity = context.Weekends.Add(weekend.ToEntity());
             context.SaveChanges();
+            weekend.WeekendViewModelID = weekendEntity.WeekendID;
+            return true;
         }
 
         public void Delete(WeekendViewModel weekend)

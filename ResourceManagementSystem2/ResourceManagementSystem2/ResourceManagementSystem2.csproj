@@ -2382,7 +2382,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Interfaces\" />
-    <Folder Include="Views\Report\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

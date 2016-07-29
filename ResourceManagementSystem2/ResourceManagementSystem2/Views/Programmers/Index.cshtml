@@ -20,7 +20,7 @@
                     .EditorTemplateName("SpecializationsDropDownList").Width(100);
                 columns.Bound(p => p.Department).ClientTemplate("#= Department.Name #")
                     .EditorTemplateName("DepartmentsDropDownList").Width(100);
-                columns.Command(command => { command.Edit(); command.Custom("Close").Click("closeProgrammer"); command.Destroy(); }).Width(200);
+                columns.Command(command => { command.Edit(); command.Custom("Уволить").Click("closeProgrammer"); command.Destroy(); }).Width(200);
             })
             .ToolBar(commands => commands.Create())
             .Editable(editable => editable.Mode(GridEditMode.InLine))

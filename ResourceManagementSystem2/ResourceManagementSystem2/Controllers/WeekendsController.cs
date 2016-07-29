@@ -15,17 +15,20 @@ namespace ResourceManagementSystem2.Controllers
 
         public ActionResult Index()
         {
-            return View(_weekendService.GetAll().ToArray());
+            return View();
         }
 
         public JsonResult Create([DataSourceRequest] DataSourceRequest request, WeekendViewModel weekend)
         {
+            bool success = false;
+
             if (ModelState.IsValid)
             {
-                _weekendService.Insert(weekend);
+                success = _weekendService.Insert(weekend);
             }
-
-            return Json(new[] { weekend }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+            var result = new[] { weekend }.ToDataSourceResult(request, ModelState);
+            result.Errors = !success;
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Destroy([DataSourceRequest] DataSourceRequest request, WeekendViewModel weekend)
@@ -39,7 +42,7 @@ namespace ResourceManagementSystem2.Controllers
 
         public JsonResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_weekendService.GetAll().ToDataSourceResult(request));
+            return Json(_weekendService.GetAll().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ReadForDrawing()

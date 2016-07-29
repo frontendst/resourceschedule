@@ -7,6 +7,7 @@
     $('#programmersmultiselect').data('kendoMultiSelect').value([]);
     $('#specializationsmultiselect').data('kendoMultiSelect').value([]);
     $('#tasksmultiselect').data('kendoMultiSelect').value([]);
+    $('#departmentsmultiselect').data('kendoMultiSelect').value([]);
 }
 
 function closeFilteringWindow() {
@@ -14,7 +15,7 @@ function closeFilteringWindow() {
 }
 
 function renderFilteringWindow() {
-    $("body").append("<div id='filterwindow'><span>Projects:</span><input id='tasksmultiselect'></input><span>Programmers:</span><input id='programmersmultiselect'></input><span>Specializations:</span><input id='specializationsmultiselect'></input></div>");
+    $("body").append("<div id='filterwindow'><span>Projects:</span><input id='tasksmultiselect'></input><span>Programmers:</span><input id='programmersmultiselect'></input><span>Specializations:</span><input id='specializationsmultiselect'></input><span>Departments:</span><input id='departmentsmultiselect'></input></div>");
 
     $("#filterwindow").append("<br/>");
     $("#filterwindow").append("<input id='refreshButton' class='k-button control-but'onclick='refreshFilteringMultiSelects()' type='button' value='Сбросить всё'/>");
@@ -121,6 +122,13 @@ function renderFilteringWindow() {
         placeholder: "Select filter...",
         change: function (e) {
             var specIds = this.value();
+            if (specIds.length != 0) {
+                $("#departmentsmultiselect").data('kendoMultiSelect').enable(false);
+                $("#departmentsmultiselect").data('kendoMultiSelect').value([]);
+            }
+            else {
+                $("#specializationsmultiselect").data('kendoMultiSelect').enable();
+            }
             var programmerIds = $('#programmersmultiselect').data('kendoMultiSelect').value();
             var specFilters = [];
             var programerFilters = [];
@@ -151,8 +159,64 @@ function renderFilteringWindow() {
             scheduler.resources[0].dataSource.filter(filterSet);
             $('#programmersmultiselect').data('kendoMultiSelect').dataSource.filter({ logic: 'or', filters: specFilters });
             scheduler.view(scheduler.view().name);
-           
+
+        }
+
+    });
+
+    $("#departmentsmultiselect").kendoMultiSelect({
+        dataTextField: "Name",
+        dataValueField: "DepartmentViewModelID",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "/Departments/ReadForDropdown"
+                }
             }
-        
+        },
+        placeholder: "Select filter...",
+        change: function (e) {
+            var depIds = this.value();
+            console.log(depIds);
+            if (depIds.length != 0) {
+                $("#specializationsmultiselect").data('kendoMultiSelect').enable(false);
+                $("#specializationsmultiselect").data('kendoMultiSelect').value([]);
+            }
+            else {
+                $("#specializationsmultiselect").data('kendoMultiSelect').enable();
+            }
+            var programmerIds = $('#programmersmultiselect').data('kendoMultiSelect').value();
+            var depFilters = [];
+            var programerFilters = [];
+
+            for (var depId in depIds) {
+                depFilters.push({ field: "DepartmentID", value: depIds[depId] });
+            }
+
+            for (var programmerId in programmerIds) {
+                programerFilters.push({ field: "ProgrammerViewModelID", value: programmerIds[programmerId] });
+            }
+
+            var filterSet;
+            if (depFilters.length == 0 && programerFilters.length != 0) {
+                filterSet = [{ logic: "or", filters: programerFilters }];
+            }
+            else if (depFilters.length != 0 && programerFilters.length == 0) {
+                filterSet = [{ logic: "or", filters: depFilters }];
+            }
+            else if (depFilters.length != 0 && programerFilters.length != 0) {
+                filterSet = [{ logic: "or", filters: depFilters }, { logic: "or", filters: programerFilters }];
+            }
+            else if (depFilters.length == 0 && programerFilters.length == 0) {
+                filterSet = [];
+            }
+
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            scheduler.resources[0].dataSource.filter(filterSet);
+            $('#programmersmultiselect').data('kendoMultiSelect').dataSource.filter({ logic: 'or', filters: depFilters });
+            scheduler.view(scheduler.view().name);
+
+        }
+
     });
 }
